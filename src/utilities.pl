@@ -17,8 +17,17 @@ move(B,C,M,B2) :-
 %.....
 % checks if the input column C of the board B is full and returns a flag F
 
+example_board([
+    e, e, x, e, e, e, e,
+    e, e, e, e, x, e, e,
+    e, e, x, x, o, e, e,
+    e, e, o, x, o, e, e,
+    e, x, o, o, o, e, e,
+    e, x, o, x, x, o, x
+]).
+
 column_is_not_full(B,C) :-
-	get_item(B,C,V),
+    nth0(C, B, V),
 	(V == 'e'),
 	!
 	.
