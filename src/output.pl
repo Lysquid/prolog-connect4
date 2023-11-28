@@ -32,53 +32,47 @@ output_winner(B) :-
     write('No winner.')
     .
 
+output_line(B,6).
+
+output_line(B,X) :-
+    output_square(B,0,X),
+    write('|'),
+    output_square(B,1,X),
+    write('|'),
+    output_square(B,2,X),
+    write('|'),
+    output_square(B,3,X),
+    write('|'),
+    output_square(B,4,X),
+    write('|'),
+    output_square(B,5,X),
+    write('|'),
+    output_square(B,6,X),
+    nl,
+    X1 is X+1,
+    output_line(B,X1).
+
+output_square(B,C,L) :-
+    cell(B,C,L,M),
+    write(' '),
+    output_square2(M),
+    write(' '), !
+    .
+
+output_square2(E) :-
+    blank_mark(E),
+    write(' '), !              %%% if square is empty, output the square number
+    .
+
+output_square2(M) :-
+    write(M), !              %%% if square is marked, output the mark
+    .
 
 output_board(B) :-
     nl,
     nl,
-    output_square(B,1),
-    write('|'),
-    output_square(B,2),
-    write('|'),
-    output_square(B,3),
-    nl,
-    write('-----------'),
-    nl,
-    output_square(B,4),
-    write('|'),
-    output_square(B,5),
-    write('|'),
-    output_square(B,6),
-    nl,
-    write('-----------'),
-    nl,
-    output_square(B,7),
-    write('|'),
-    output_square(B,8),
-    write('|'),
-    output_square(B,9), !
-    .
+    output_line(B,0).
 
-output_board :-
-    board(B),
-    output_board(B), !
-    .
-
-output_square(B,S) :-
-    square(B,S,M),
-    write(' '), 
-    output_square2(S,M),  
-    write(' '), !
-    .
-
-output_square2(S, E) :- 
-    blank_mark(E),
-    write(S), !              %%% if square is empty, output the square number
-    .
-
-output_square2(S, M) :- 
-    write(M), !              %%% if square is marked, output the mark
-    .
 
 output_value(D,S,U) :-
     D == 1,

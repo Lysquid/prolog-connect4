@@ -67,7 +67,9 @@ run :-
 imports :-
     consult(random),
     consult(facts),
-    consult(output)
+    consult(output),
+    consult(board),
+    consult(list)
     .
 
 run :-
@@ -89,7 +91,14 @@ hello :-
 initialize :-
     random_seed,          %%% use current time to initialize random number generator
     blank_mark(E),
-    asserta( board([E,E,E, E,E,E, E,E,E]) )  %%% create a blank board
+    asserta( board([
+        E, E, E, E, E, E, E,
+        E, E, E, E, E, E, E,
+        E, E, E, E, E, E, E,
+        E, E, E, E, E, E, E,
+        E, E, E, E, E, E, E,
+        E, E, E, E, E, E, E
+    ]) ) %%% create a blank board
     .
 
 goodbye :-
@@ -182,4 +191,95 @@ play(P) :-
     play(P2), !
     .
 
+
+
+%.......................................
+% game_over
+%.......................................
+% determines when the game is over
+%
+game_over(P, B) :-
+    game_over2(P, B)
+    .
+
+game_over2(P, B) :-
+    opponent_mark(P, M),   %%% game is over if opponent wins
+    win(B, M)
+    .
+
+% game_over2(P, B) :-
+%     blank_mark(E),
+%     not(square(B,S,E))     %%% game is over if opponent wins
+%     .
+
+
+%.......................................
+% make_move
+%.......................................
+% requests next move from human/computer, 
+% then applies that move to the given board
+%
+
+make_move(P, B) :-
+    player(P, Type),
+
+    make_move2(Type, P, B, B2),
+
+    retract( board(_) ),
+    asserta( board(B2) )
+    .
+
+make_move2(human, P, B, B2) :-
+    nl,
+    nl,
+    write('Player '),
+    write(P),
+    write(' move? '),
+    read(S),
+
+    blank_mark(E),
+    % square(B, S, E),
+    player_mark(P, M),
+    % move(B, S, M, B2)   TODO
+    !
+    .
+
+make_move2(human, P, B, B2) :-
+    nl,
+    nl,
+    write('Please select a numbered square.'),
+    make_move2(human,P,B,B2)
+    .
+
+make_move2(computer, P, B, B2) :-
+    nl,
+    nl,
+    write('Computer is thinking about next move...'),
+    player_mark(P, M),
+    minimax(0, B, M, S, U),
+    move(B,S,M,B2),
+
+    nl,
+    nl,
+    write('Computer places '),
+    write(M),
+    write(' in square '),
+    write(S),
+    write('.')
+    .
+
+
+%.......................................
+% moves
+%.......................................
+% retrieves a list of available moves (empty squares) on a board.
+%
+
+moves(B,L) :-
+    not(win(B,x)),                %%% if either player already won, then there are no available moves
+    not(win(B,o)),
+    blank_mark(E),
+    findall(N, square(B,N,E), L), 
+    L \= []
+    .
 
