@@ -15,22 +15,37 @@ move(B,C,M,B2) :-
 %.....
 % column_is_not_full
 %.....
-% checks if the input column C of the board B is full and returns a flag F
+% checks if the input column C of the board B is full
 
 example_board([
     e, e, x, e, e, e, e,
-    e, e, e, e, x, e, e,
-    e, e, x, x, o, e, e,
-    e, e, o, x, o, e, e,
-    e, x, o, o, o, e, e,
-    e, x, o, x, x, o, x
+    x, e, e, e, x, e, e,
+    x, e, x, x, o, e, e,
+    x, e, o, x, o, e, e,
+    x, x, o, o, o, e, e,
+    x, x, o, x, x, o, x
 ]).
 
 column_is_not_full(B,C) :-
-    nth0(C, B, V),
+	nth0(C, B, V),
 	(V == 'e'),
 	!
 	.
+
+%....
+% search_column_position 
+%....
+% searches the empty position N in the column C of the board B
+
+search_column_position(B,C,N) :-
+	N is C-7,
+	nth0(C,B,'e'),
+	!,
+	C2 is C+7,
+	search_column_position(B,C2,N)
+	.
+
+
 	
 
 %.......................................
@@ -60,29 +75,3 @@ set_item2( [H|T1], N, V, A, [H|T2] ) :-
     set_item2( T1, N, V, A1, T2 )
     .
 
-
-
-%.......................................
-% get_item
-%.......................................
-% Given a list L, retrieve the item at position N and return it as value V
-%
-
-get_item(L, N, V) :-
-    get_item2(L, N, 1, V)
-    .
-
-get_item2( [], _N, _A, V) :- 
-    V = [], !,
-    fail
-        .
-
-get_item2( [H|_T], N, A, V) :- 
-    A = N,
-    V = H
-    .
-
-get_item2( [_|T], N, A, V) :-
-    A1 is A + 1,
-    get_item2( T, N, A1, V)
-    .
