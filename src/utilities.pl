@@ -6,8 +6,7 @@
 %
 
 move(B,C,M,B2) :-
-	column_is_not_full(B,C,F),
-	(F == 'True'),
+	column_is_not_full(B,C),
 	!,
 	search_column_position(B,C,N), 
 	set_item(B,N,M,B2)
@@ -18,11 +17,10 @@ move(B,C,M,B2) :-
 %.....
 % checks if the input column C of the board B is full and returns a flag F
 
-column_is_not_full(B,C,F) :-
+column_is_not_full(B,C) :-
 	get_item(B,C-1,V),
 	(V == 'e'),
-	!,
-	F = 'True'
+	!
 	.
 	
 

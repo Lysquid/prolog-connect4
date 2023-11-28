@@ -1,5 +1,3 @@
-module(board,[cell/4, win/2]).
-
 example_board([
     e, e, e, e, e, e, e,
     e, e, e, e, x, e, e,
