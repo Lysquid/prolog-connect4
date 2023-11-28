@@ -46,26 +46,11 @@ output_interline(X) :-
 
 output_lines(B,6).
 
-output_lines(B,X) :-
-    write('│'),
-    output_square(B,0,X),
-    write('│'),
-    output_square(B,1,X),
-    write('│'),
-    output_square(B,2,X),
-    write('│'),
-    output_square(B,3,X),
-    write('│'),
-    output_square(B,4,X),
-    write('│'),
-    output_square(B,5,X),
-    write('│'),
-    output_square(B,6,X),
-    write('│'),
-    nl,
-    X1 is X+1,
-    output_interline(X1),
-    output_lines(B,X1)
+output_lines(B,C) :-
+    output_cell(B, 0, C),
+    C1 is C+1,
+    output_interline(C1),
+    output_lines(B,C1)
     .
 
 output_header :-
@@ -73,20 +58,28 @@ output_header :-
     nl
     .
 
-output_square(B,C,L) :-
-    cell(B,C,L,M),
-    write(' '),
-    output_square2(M),
-    write(' '),
+output_cell(B,7,L) :-
+    write('│'),
+    nl,
     !
     .
 
-output_square2(E) :-
+output_cell(B,C,L) :-
+    cell(B,C,L,M),
+    write('│ '),
+    output_cell2(M),
+    write(' '),
+    C1 is C+1,
+    output_cell(B,C1,L),
+    !
+    .
+
+output_cell2(E) :-
     blank_mark(E),
     write(' '), !              %%% if square is empty, output the square number
     .
 
-output_square2(M) :-
+output_cell2(M) :-
     write(M), !              %%% if square is marked, output the mark
     .
 
