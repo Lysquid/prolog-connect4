@@ -32,31 +32,53 @@ output_winner(B) :-
     write('No winner.')
     .
 
-output_line(B,6).
+output_interline(0) :-
+    write('┌───┬───┬───┬───┬───┬───┬───┐'),
+    nl.
 
-output_line(B,X) :-
+output_interline(6) :-
+    write('└───┴───┴───┴───┴───┴───┴───┘'),
+    nl.
+
+output_interline(X) :-
+    write('├───┼───┼───┼───┼───┼───┼───┤'),
+    nl.
+
+output_lines(B,6).
+
+output_lines(B,X) :-
+    write('│'),
     output_square(B,0,X),
-    write('|'),
+    write('│'),
     output_square(B,1,X),
-    write('|'),
+    write('│'),
     output_square(B,2,X),
-    write('|'),
+    write('│'),
     output_square(B,3,X),
-    write('|'),
+    write('│'),
     output_square(B,4,X),
-    write('|'),
+    write('│'),
     output_square(B,5,X),
-    write('|'),
+    write('│'),
     output_square(B,6,X),
+    write('│'),
     nl,
     X1 is X+1,
-    output_line(B,X1).
+    output_interline(X1),
+    output_lines(B,X1)
+    .
+
+output_header :-
+    write('  1   2   3   4   5   6   7'),
+    nl
+    .
 
 output_square(B,C,L) :-
     cell(B,C,L,M),
     write(' '),
     output_square2(M),
-    write(' '), !
+    write(' '),
+    !
     .
 
 output_square2(E) :-
@@ -71,7 +93,10 @@ output_square2(M) :-
 output_board(B) :-
     nl,
     nl,
-    output_line(B,0).
+    output_header,
+    output_interline(0),
+    output_lines(B,0),
+    output_header.
 
 
 output_value(D,S,U) :-
