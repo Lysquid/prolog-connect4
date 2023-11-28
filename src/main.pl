@@ -70,7 +70,8 @@ imports :-
     consult(output),
     consult(board),
     consult(list),
-    consult(utilities)
+    consult(utilities),
+    consult(ai)
     .
 
 run :-
@@ -257,7 +258,7 @@ make_move2(computer, P, B, B2) :-
     nl,
     write('Computer is thinking about next move...'),
     player_mark(P, M),
-    minimax(0, B, M, S, U),
+    minmax(5, B, M, S, U),
     move(B,S,M,B2),
 
     nl,
