@@ -1,3 +1,6 @@
+?- consult(board).
+?- consult(output).
+?- consult(facts).
 %.......................................
 % move
 %.......................................
@@ -7,10 +10,8 @@
 
 move(B,C,M,B2) :-
 	column_is_not_full(B,C),
-	!,
-	search_column_position(B,C,N), 
-	set_item(B,N,M,B2)
-	.
+	search_column_position(B,C,L),
+    set_cell(B, C, L, M, B2).
 
 %.....
 % column_is_not_full
@@ -35,6 +36,11 @@ column_is_not_full(B,C) :-
 cell(B, C, L, M) :- 
     I is L * 7 + C,
     nth0(I, B, M).
+
+set_cell(B, C, L, E, B2) :- 
+    I is L * 7 + C,
+    nth0(I, B, _, R),
+    nth0(I, B2, E, R).
 
 %....
 % search_column_position 
