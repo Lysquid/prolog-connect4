@@ -21,20 +21,20 @@ minmax(_, B, _, _, U) :- utility(B, U).
 best(D,B,M,[S1],S,U) :- 
     move(B, S1, M, B2),
     inverse_mark(M, M2),
-    !
+    !,
     minmax(D, B2, M2, _, U),
     S1 = S, !.
 
 best(D,B,M,[S1 | T],S,U) :- 
     move(B, S1, M, B2),
     inverse_mark(M, M2),
-    !
+    !,
     minmax(D, B2, M2, _, U1),
     best(D, B, M, T, S2, U2),
     better(M, S1, U1, S2, U2, S, U).
 
 better(M, S1, U1, _S2, U2, S, U) :-
-    maximazing(M),
+    maximizing(M),
     U1 > U2,
     S = S1,
     U = U1, !.
