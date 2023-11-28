@@ -19,7 +19,7 @@ move(B,C,M,B2) :-
 
 example_board([
     e, e, x, e, e, e, e,
-    x, e, e, e, x, e, e,
+    e, e, e, e, x, e, e,
     x, e, x, x, o, e, e,
     x, e, o, x, o, e, e,
     x, x, o, o, o, e, e,
@@ -32,19 +32,24 @@ column_is_not_full(B,C) :-
 	!
 	.
 
+cell(B, C, L, M) :- 
+    I is L * 7 + C,
+    nth0(I, B, M).
+
 %....
 % search_column_position 
 %....
 % searches the empty position N in the column C of the board B
 
-search_column_position(B,C,N) :-
-	N is C-7,
-	nth0(C,B,'e'),
-	!,
-	C2 is C+7,
-	search_column_position(B,C2,N)
-	.
+search_column_position(B,C,5) :- cell(B, C, 5, 'e').
 
+search_column_position(B,C,L) :-
+    player_mark(_, M),
+    in_board(C, NL),
+    NL > 0,
+    L is NL - 1,
+    cell(B, C, L, 'e'),
+	cell(B, C, NL, M), !.
 
 	
 
