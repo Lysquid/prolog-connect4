@@ -70,4 +70,4 @@ arity_prolog___random_int_1n(N, V) :-
     V is V4 + 1,
     !
     .
-
+*/

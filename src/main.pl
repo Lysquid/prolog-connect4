@@ -69,7 +69,8 @@ imports :-
     consult(facts),
     consult(output),
     consult(board),
-    consult(list)
+    consult(list),
+    consult(utilities)
     .
 
 run :-
@@ -235,12 +236,12 @@ make_move2(human, P, B, B2) :-
     write('Player '),
     write(P),
     write(' move? '),
-    read(S),
+    read(S1),
 
+    S is S1-1,
     blank_mark(E),
-    % square(B, S, E),
     player_mark(P, M),
-    % move(B, S, M, B2)   TODO
+    move(B, S, M, B2),
     !
     .
 
