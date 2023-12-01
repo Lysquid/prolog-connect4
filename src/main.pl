@@ -143,9 +143,9 @@ read_players :-
     .
 
 set_players(0) :- 
-    asserta( player(1, computer) ),
-    asserta( player(2, computer) ), !
-    .
+    set_ai(C, 1),
+ 	 set_ai(C, 2), !
+	 .
 
 set_players(1) :-
     nl,
@@ -283,6 +283,7 @@ make_move2(computer2, P, B, B2) :-
     nl,
     write('Computer (minmax) is thinking about next move...'),
     player_mark(P, M),
+	 minmax(5,B,M,S,U),
 	 move(B,S,M,B2),
     nl,
     nl,
