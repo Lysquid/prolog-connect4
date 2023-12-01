@@ -33,15 +33,15 @@ output_winner(B) :-
     .
 
 output_interline(0) :-
-    write('┌────┬────┬────┬────┬────┬────┬────┐'),
+    write('┌───┬───┬───┬───┬───┬───┬───┐'),
     nl.
 
 output_interline(6) :-
-    write('└────┴────┴────┴────┴────┴────┴────┘'),
+    write('└───┴───┴───┴───┴───┴───┴───┘'),
     nl.
 
 output_interline(X) :-
-    write('├────┼────┼────┼────┼────┼────┼────┤'),
+    write('├───┼───┼───┼───┼───┼───┼───┤'),
     nl.
 
 output_lines(B,6).
@@ -54,7 +54,7 @@ output_lines(B,C) :-
     .
 
 output_header :-
-    write('  1    2    3    4    5    6    7'),
+    write('  1   2   3   4   5   6   7'),
     nl
     .
 
@@ -76,15 +76,15 @@ output_cell(B,C,L) :-
 
 output_cell2(E) :-
     blank_mark(E),
-    write('  '), !              %%% if square is empty, output the square number
+    write(' '), !              %%% if square is empty, output the square number
     .
 
 output_cell2(x) :-
-    write('🔴'), !              %%% if square is marked, output the mark
+    write('○'), !              %%% if square is marked, output the mark
     .
 
 output_cell2(o) :-
-    write('🟡'), !              %%% if square is marked, output the mark
+    write('●'), !              %%% if square is marked, output the mark
     .
 
 output_board(B) :-
