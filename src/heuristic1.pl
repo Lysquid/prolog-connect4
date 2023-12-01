@@ -23,26 +23,30 @@ streak_sum(B, M, C, L, S) :-
 
 streak(B, M, C, L, S) :- 
     inverse_mark(M, IM),
-    streak_nb(B, M, C, L, 1, 0, S1, 0),
-    streak_nb(B, M, C, L, 1, -1, S2, 0),
-    streak_nb(B, M, C, L, 1, 1, S3, 0),
-    streak_nb(B, M, C, L, 0, 1, S4, 0),
-    streak_nb(B, IM, C, L, 1, 0, S5, 0),
-    streak_nb(B, IM, C, L, 1, -1, S6, 0),
-    streak_nb(B, IM, C, L, 1, 1, S7, 0),
-    streak_nb(B, IM, C, L, 0, 1, S8, 0),
+    streak_val(B, M, C, L, 1, 0, S1),
+    streak_val(B, M, C, L, 1, -1, S2),
+    streak_val(B, M, C, L, 1, 1, S3),
+    streak_val(B, M, C, L, 0, 1, S4),
+    streak_val(B, IM, C, L, 1, 0, S5),
+    streak_val(B, IM, C, L, 1, -1, S6),
+    streak_val(B, IM, C, L, 1, 1, S7),
+    streak_val(B, IM, C, L, 0, 1, S8),
     S is S1 + S2 + S3 + S4 - S5 - S6 - S7 - S8. 
 
-streak_nb(B, M, C, L, DC, DL, 0, 4).
+streak_val(B, M, C, L, DC, DL, NS) :-
+    (streak_nb(B, M, C, L, DC, DL, S, 0) ->
+        NS is S;
+        NS is 0
+    ).
 
-streak_nb(B, M, C, L, DC, DL, 0, N) :-
-    not(in_board(C, L)), !.
+streak_nb(B, M, C, L, DC, DL, 0, 4).
 
 streak_nb(B, M, C, L, DC, DL, 0, N) :-
     cell(B, C, L, V),
     inverse_mark(V, M), !.
 
 streak_nb(B, M, C, L, DC, DL, T, N) :-
+    in_board(C, L),
     NC is C + DC,
     NL is L + DL,
     NN is N+1,
