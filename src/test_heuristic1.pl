@@ -60,6 +60,6 @@ time :-
 	minmax(4, B, x, S, U),
     statistics(runtime, [End|_]),
     Runtime is End - Start,
-    format('Runtime: ~3d ms (Move: ~d, Utility: ~d)', [Runtime, S, U])
+    format('Runtime: ~3d ms (Move: ~d, Utility: ~2f)', [Runtime, S, U])
     .
 
