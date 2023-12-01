@@ -1,29 +1,27 @@
+?- consult(utilities)
+
 example_board([
-    e, e, e, e, e, e, e,
-    e, e, e, e, x, e, e,
-    e, e, x, x, o, e, e,
-    e, e, x, x, o, e, e,
-    e, x, o, o, o, e, e,
-    e, x, o, x, e, o, x
+    [e, e, e, e, e, e, e],
+    [e, e, e, e, x, e, e],
+    [e, e, x, x, o, e, e],
+    [e, e, x, x, o, e, e],
+    [e, x, o, o, o, e, e],
+    [e, x, o, x, e, o, x]
 ]).
 
 empty_board([
-    e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e
+    [e, e, e, e, e, e, e],
+    [e, e, e, e, e, e, e],
+    [e, e, e, e, e, e, e],
+    [e, e, e, e, e, e, e],
+    [e, e, e, e, e, e, e],
+    [e, e, e, e, e, e, e]
 ]).
 
 in_board(C, L) :-
     between(0, 6, C),
     between(0, 5, L).
     
-cell(B, C, L, M) :- 
-    I is L * 7 + C,
-    nth0(I, B, M).
-
 win(B, M) :- setof([C, L], (in_board(C, L), win2(B, M, C, L)), _).
 
 win2(B, M, C, L) :- 

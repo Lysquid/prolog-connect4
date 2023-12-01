@@ -19,28 +19,31 @@ move(B,C,M,B2) :-
 % checks if the input column C of the board B is full
 
 example_board([
-    e, e, x, e, e, e, e,
-    e, e, e, e, x, e, e,
-    x, e, x, x, o, e, e,
-    x, e, o, x, o, e, e,
-    x, x, o, o, o, e, e,
-    x, x, o, x, x, o, x
+    [e, e, x, e, e, e, e],
+    [e, e, e, e, x, e, e],
+    [x, e, x, x, o, e, e],
+    [x, e, o, x, o, e, e],
+    [x, x, o, o, o, e, e],
+    [x, x, o, x, x, o, x]
 ]).
 
 column_is_not_full(B,C) :-
-	nth0(C, B, V),
+    nth0(0, B, BL),
+	nth0(C, BL, V),
 	(V == 'e'),
 	!
 	.
 
 cell(B, C, L, M) :- 
-    I is L * 7 + C,
-    nth0(I, B, M).
+    nth0(L, B, BL),
+    nth0(C, BL, M).
 
 set_cell(B, C, L, E, B2) :- 
-    I is L * 7 + C,
-    nth0(I, B, _, R),
-    nth0(I, B2, E, R).
+    nth0(L, B, BL, BR),
+    nth0(C, BL, _, BLR),
+    nth0(C, BL2, E, BLR),
+    nth0(L, B2, BL2, BR)
+    .
 
 %....
 % search_column_position 
