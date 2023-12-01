@@ -11,7 +11,7 @@ example_board2([
     e, e, e, e, e, e, e,
     e, e, e, e, e, e, e,
     e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e,
+    e, e, e, o, e, e, e,
     e, e, e, x, e, e, e
 ]).
 

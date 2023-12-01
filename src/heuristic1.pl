@@ -41,12 +41,10 @@ streak_val(B, M, C, L, DC, DL, NS) :-
 
 streak_nb(B, M, C, L, DC, DL, 0, 4).
 
-streak_nb(B, M, C, L, DC, DL, 0, N) :-
-    cell(B, C, L, V),
-    inverse_mark(V, M), !.
-
 streak_nb(B, M, C, L, DC, DL, T, N) :-
     in_board(C, L),
+    cell(B, C, L, V),
+    not(inverse_mark(M, V)),
     NC is C + DC,
     NL is L + DL,
     NN is N+1,
