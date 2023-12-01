@@ -13,7 +13,7 @@ streak_sum(B, M, 7, L, S, P) :-
 streak_sum(B, M, C, L, S, P) :- 
     streak(B, M, C, L, NS, P),
     NC is C + 1,
-    streak_sum(B, M, NC, L, NNS, P),
+    streak_sum(B, M, NC, L, NNS, P), !,
     S is NS + NNS.
 
 
