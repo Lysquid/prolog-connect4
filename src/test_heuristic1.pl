@@ -27,6 +27,24 @@ test :-
         e, e, e, e, e, e, e,
         e, e, e, e, e, e, e,
         e, e, e, e, e, e, e,
+        e, e, e, e, e, e, e,
+        x, e, e, e, e, e, e
+    ], x, 3, 2),
+
+    heuristic1([
+        e, e, e, e, e, e, e,
+        e, e, e, e, e, e, e,
+        e, e, e, e, e, e, e,
+        e, e, e, e, e, e, e,
+        e, e, e, e, e, e, e,
+        e, e, e, e, e, e, x
+    ], x, 3, 2),
+
+    heuristic1([
+        e, e, e, e, e, e, e,
+        e, e, e, e, e, e, e,
+        e, e, e, e, e, e, e,
+        e, e, e, e, e, e, e,
         e, e, e, o, e, e, e,
         e, e, e, x, e, e, e
     ], x, -3, 2),
