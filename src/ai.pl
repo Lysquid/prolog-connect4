@@ -1,7 +1,7 @@
 ?- consult(board).
 ?- consult(utilities).
 ?- consult(facts).
-?- consult(heurisitc1).
+?- consult(heuristic1).
 
 test_board( [
     e, e, e, e, e, e, e,
@@ -137,4 +137,4 @@ better(M, _S1, _U1, S2, U2, S, U) :- %otherwise
 
 
 
-utility(B, U) :- heuristic1(B, x, U).
+utility(B, U) :- heuristic1(B, x, U, 2).

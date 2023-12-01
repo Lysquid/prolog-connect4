@@ -1,27 +1,23 @@
 ?- consult(board).
 ?- consult(facts).
 
-% heuristic1(B, V).
+heuristic1(B, M, S, P) :-
+    streak_sum(B, M, 0, 0, S, P).
 
-% heuristic(B, M, V) :- setof([C, L], (in_board(C, L), win2(B, M, C, L)), _).
+streak_sum(B, M, 7, 5, 0, P).
 
-heuristic1(B, M, S) :-
-    streak_sum(B, M, 0, 0, S).
-
-streak_sum(B, M, 7, 5, 0).
-
-streak_sum(B, M, 7, L, S) :- 
+streak_sum(B, M, 7, L, S, P) :- 
     NL is L + 1,
-    streak_sum(B, M, 0, NL, S).
+    streak_sum(B, M, 0, NL, S, P).
 
-streak_sum(B, M, C, L, S) :- 
-    streak(B, M, C, L, NS),
+streak_sum(B, M, C, L, S, P) :- 
+    streak(B, M, C, L, NS, P),
     NC is C + 1,
-    streak_sum(B, M, NC, L, NNS),
+    streak_sum(B, M, NC, L, NNS, P),
     S is NS + NNS.
 
 
-streak(B, M, C, L, S) :- 
+streak(B, M, C, L, S, P) :- 
     inverse_mark(M, IM),
     streak_val(B, M, C, L, 1, 0, S1),
     streak_val(B, M, C, L, 1, -1, S2),
@@ -31,7 +27,7 @@ streak(B, M, C, L, S) :-
     streak_val(B, IM, C, L, 1, -1, S6),
     streak_val(B, IM, C, L, 1, 1, S7),
     streak_val(B, IM, C, L, 0, 1, S8),
-    S is S1 + S2 + S3 + S4 - S5 - S6 - S7 - S8. 
+    S is S1**P + S2**P + S3**P + S4**P - S5**P - S6**P - S7**P - S8**P. 
 
 streak_val(B, M, C, L, DC, DL, NS) :-
     (streak_nb(B, M, C, L, DC, DL, S, 0) ->
