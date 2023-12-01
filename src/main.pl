@@ -71,6 +71,7 @@ imports :-
     consult(board),
     consult(list),
     consult(utilities),
+    consult(heuristic1),
     consult(ai)
     .
 
@@ -258,7 +259,7 @@ make_move2(computer, P, B, B2) :-
     nl,
     write('Computer is thinking about next move...'),
     player_mark(P, M),
-    minmax(5, B, M, S, U),
+    minmax(4, B, M, S, U),
     move(B,S,M,B2),
 
     nl,
@@ -268,6 +269,9 @@ make_move2(computer, P, B, B2) :-
     write(' in square '),
 	 S1 is S+1,
     write(S1),
+    write(' (utility: '),
+    write(U),
+    write(')'),
     write('.')
     .
 
