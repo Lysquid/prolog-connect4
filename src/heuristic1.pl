@@ -3,42 +3,56 @@
 
 % heuristic1(B, V).
 
-win(B, M) :- setof([C, L], (in_board(C, L), win2(B, M, C, L)), _).
+% heuristic(B, M, V) :- setof([C, L], (in_board(C, L), win2(B, M, C, L)), _).
+
+heuristic1(B, M, S) :-
+    streak_sum(B, M, 0, 0, S).
+
+streak_sum(B, M, 7, 5, 0).
+
+streak_sum(B, M, 7, L, S) :- 
+    NL is L + 1,
+    streak_sum(B, M, 0, NL, S).
+
+streak_sum(B, M, C, L, S) :- 
+    streak(B, M, C, L, NS),
+    NC is C + 1,
+    streak_sum(B, M, NC, L, NNS),
+    S is NS + NNS.
+
 
 streak(B, M, C, L, S) :- 
-    C >= 0,
-    L >= 0,
-    C < 7,
-    L < 6,
+    inverse_mark(M, IM),
+    streak_nb(B, M, C, L, 1, 0, S1, 0),
+    streak_nb(B, M, C, L, 1, -1, S2, 0),
+    streak_nb(B, M, C, L, 1, 1, S3, 0),
+    streak_nb(B, M, C, L, 0, 1, S4, 0),
+    streak_nb(B, IM, C, L, 1, 0, S5, 0),
+    streak_nb(B, IM, C, L, 1, -1, S6, 0),
+    streak_nb(B, IM, C, L, 1, 1, S7, 0),
+    streak_nb(B, IM, C, L, 0, 1, S8, 0),
+    S is S1 + S2 + S3 + S4 - S5 - S6 - S7 - S8. 
+
+streak_nb(B, M, C, L, DC, DL, 0, 4).
+
+streak_nb(B, M, C, L, DC, DL, 0, N) :-
+    not(in_board(C, L)), !.
+
+streak_nb(B, M, C, L, DC, DL, 0, N) :-
+    cell(B, C, L, V),
+    inverse_mark(V, M), !.
+
+streak_nb(B, M, C, L, DC, DL, T, N) :-
+    NC is C + DC,
+    NL is L + DL,
+    NN is N+1,
+    streak_nb(B, M, NC, NL, DC, DL, NT, NN),
+    streak_nb2(B, M, C, L, T, NT).
+
+streak_nb2(B, M, C, L, T, NT) :-
     cell(B, C, L, M),
-    (
-        streakLength(B, M, C, L, 1, 0, 1) ; 
-        streakLength(B, M, C, L, 1, -1, 1) ;
-        streakLength(B, M, C, L, 1, 1, 1) ;
-        streakLength(B, M, C, L, 0, 1, 1) 
-    ), !.
+    T is NT+1.
 
-validStart(B, M, C, L, DC, DL) :-
-    NC is C - DC,
-    NL is L - DL,
-    (
-        not(in_board(NC, NL));
-        not(cell(B, NC, NL, M))    
-    ).
-
-% last cell is free
-streakLength(B, M, C, L, DC, DL, 0) :-     
-    NC is C + DC,
-    NL is L + DL,
-    in_board(NC, NL),
-    cell(B, NC, NL, V),
-    blank_mark(V),
-    !.
-
-streakLength(B, M, C, L, DC, DL, N) :-
-    NC is C + DC,
-    NL is L + DL,
-    in_board(NC, NL),
-    cell(B, NC ,NL, M),
-    streakLength(B, M, NC, NL, DC, DL, NN),
-    N is NN + 1.
+streak_nb2(B, M, C, L, NT, NT) :-
+    cell(B, C, L, V),
+    blank_mark(V).
