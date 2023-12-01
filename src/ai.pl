@@ -51,6 +51,13 @@ minmax2(D, B, M, S, U, Al, Be) :-
 
 minmax2(_, B, _, _, U, _, _) :- utility(B, U).
 
+randomai(B, S, M) :-
+	possible_moves(B, MVS),
+	random_member(S, MVS),
+	move(B, S, M, B2),
+	!.		
+
+
 %.......................................
 % best
 %.......................................

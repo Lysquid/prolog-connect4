@@ -169,14 +169,14 @@ set_players(N) :-
 human_playing(M) :- 
     M == 'x',
     asserta( player(1, human) ),
-    asserta( player(2, computer) ), !
-    .
+    set_ai(C, 2), !
+	 .
 
 human_playing(M) :- 
     M == 'o',
-    asserta( player(1, computer) ),
-    asserta( player(2, human) ), !
-    .
+    asserta( player(2, human) ),
+	 set_ai(C, 1), ! 	
+	 .
 
 human_playing(M) :-
     nl,
@@ -184,12 +184,18 @@ human_playing(M) :-
     set_players(1)
     .
 
+set_ai(C, N) :-
+	write('Please choose computer AI : random (1), minmax(2)'),	
+	read(C),
+	((C == 1, asserta( player(N, computer1))) ; (C == 2, asserta( player(N, computer2)))), !
+	.	
+
 
 play(P) :-
     board(B), !,
     output_board(B), !,
-    not(game_over(P, B)), !,
-    make_move(P, B), !,
+    not(game_over(P, B)), !, 
+	 make_move(P, B), !,
     next_player(P, P2), !,
     play(P2), !
     .
@@ -254,14 +260,30 @@ make_move2(human, P, B, B2) :-
     make_move2(human,P,B,B2)
     .
 
-make_move2(computer, P, B, B2) :-
+make_move2(computer1, P, B, B2) :-
+	 nl,
     nl,
-    nl,
-    write('Computer is thinking about next move...'),
+    write('Computer (random) is thinking about next move...'),
     player_mark(P, M),
-    minmax(4, B, M, S, U),
-    move(B,S,M,B2),
+	 randomai(B,S,M),
+	 move(B,S,M,B2),
+	
+    nl,
+    nl,
+    write('Computer places '),
+    write(M),
+    write(' in square '),
+	 S1 is S+1,
+    write(S1),
+    write('.')
+    .
 
+make_move2(computer2, P, B, B2) :-
+	 nl,
+    nl,
+    write('Computer (minmax) is thinking about next move...'),
+    player_mark(P, M),
+	 move(B,S,M,B2),
     nl,
     nl,
     write('Computer places '),
@@ -274,7 +296,6 @@ make_move2(computer, P, B, B2) :-
     write(')'),
     write('.')
     .
-
 
 %.......................................
 % moves
