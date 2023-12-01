@@ -112,7 +112,7 @@ goodbye :-
     retract(board(_)),
     retract(player(_,_)),
     read_play_again(V), !,
-    (V == 'Y' ; V == 'y'), 
+    V == 'y', 
     !,
     run
     .
@@ -120,15 +120,15 @@ goodbye :-
 read_play_again(V) :-
     nl,
     nl,
-    write('Play again (Y/N)? '),
+    write('Play again (y/n)? '),
     read(V),
-    (V == 'y' ; V == 'Y' ; V == 'n' ; V == 'N'), !
+    (V == 'y' ; V == 'n'), !
     .
 
 read_play_again(V) :-
     nl,
     nl,
-    write('Please enter Y or N.'),
+    write('Please enter y or n.'),
     read_play_again(V)
     .
 
@@ -148,7 +148,7 @@ set_players(0) :-
 
 set_players(1) :-
     nl,
-    write('Is human playing X or O (X moves first)? '),
+    write('Is human playing x or o (x moves first)? '),
     read(M),
     human_playing(M), !
     .
@@ -166,20 +166,20 @@ set_players(N) :-
 
 
 human_playing(M) :- 
-    (M == 'x' ; M == 'X'),
+    M == 'x',
     asserta( player(1, human) ),
     asserta( player(2, computer) ), !
     .
 
 human_playing(M) :- 
-    (M == 'o' ; M == 'O'),
+    M == 'o',
     asserta( player(1, computer) ),
     asserta( player(2, human) ), !
     .
 
 human_playing(M) :-
     nl,
-    write('Please enter X or O.'),
+    write('Please enter x or o.'),
     set_players(1)
     .
 
@@ -266,7 +266,8 @@ make_move2(computer, P, B, B2) :-
     write('Computer places '),
     write(M),
     write(' in square '),
-    write(S),
+	 S1 is S+1,
+    write(S1),
     write('.')
     .
 
