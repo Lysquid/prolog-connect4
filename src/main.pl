@@ -143,8 +143,8 @@ read_players :-
     .
 
 set_players(0) :- 
-    set_ai(C, 1),
- 	 set_ai(C, 2), !
+    set_ai(1),
+ 	 set_ai(2), !
 	 .
 
 set_players(1) :-
@@ -162,20 +162,20 @@ set_players(2) :-
 set_players(N) :-
     nl,
     write('Please enter 0, 1, or 2.'),
-    read_players
+    read_players, !
     .
 
 
 human_playing(M) :- 
     M == 'x',
     asserta( player(1, human) ),
-    set_ai(C, 2), !
+    set_ai(2), !
 	 .
 
 human_playing(M) :- 
     M == 'o',
     asserta( player(2, human) ),
-	 set_ai(C, 1), ! 	
+	 set_ai(1), ! 	
 	 .
 
 human_playing(M) :-
@@ -184,7 +184,7 @@ human_playing(M) :-
     set_players(1)
     .
 
-set_ai(C, N) :-
+set_ai(N) :-
 	write('Please choose computer AI : random (1), minmax(2)'),	
 	read(C),
 	((C == 1, asserta( player(N, computer1))) ; (C == 2, asserta( player(N, computer2)))), !
