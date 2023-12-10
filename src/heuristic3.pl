@@ -1,0 +1,1 @@
+heuristic3(B, M, S, P) :- S is 0.

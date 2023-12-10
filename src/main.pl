@@ -71,7 +71,7 @@ imports :-
     consult(board),
     consult(list),
     consult(utilities),
-    consult(heuristic1),
+    consult(heuristic3),
     consult(ai)
     .
 
@@ -185,9 +185,9 @@ human_playing(M) :-
     .
 
 set_ai(N) :-
-	write('Please choose computer AI : random (1), minmax(2)'),	
+	write('Please choose computer AI : random (1), goodminmax(2), badminmax(2), nominmax(2)'),	
 	read(C),
-	((C == 1, asserta( player(N, computer1))) ; (C == 2, asserta( player(N, computer2)))), !
+	((C == 1, asserta( player(N, computer1))) ; (C == 2, asserta( player(N, computer2))); (C == 3, asserta( player(N, computer3))); (C == 4, asserta( player(N, computer4)))), !
 	.	
 
 
@@ -284,7 +284,7 @@ make_move2(computer2, P, B, B2) :-
     write('Computer (minmax) is thinking about next move...'),
     nl,
     player_mark(P, M),
-	 minmax(5,B,M,S,U),
+	 minmax(Type,5,B,M,S,U),
 	 move(B,S,M,B2),
     nl,
     write('Computer places '),
@@ -297,7 +297,44 @@ make_move2(computer2, P, B, B2) :-
     write(')'),
     write('.')
     .
-
+make_move2(computer3, P, B, B2) :-
+	 nl,
+    nl,
+    write('Computer (minmax) is thinking about next move...'),
+    nl,
+    player_mark(P, M),
+	 minmax(Type,5,B,M,S,U),
+	 move(B,S,M,B2),
+    nl,
+    write('Computer places '),
+    write(M),
+    write(' in square '),
+	 S1 is S+1,
+    write(S1),
+    write(' (utility: '),
+    write(U),
+    write(')'),
+    write('.')
+    .
+    make_move2(computer4, P, B, B2) :-
+	 nl,
+    nl,
+    write('Computer (minmax) is thinking about next move...'),
+    nl,
+    player_mark(P, M),
+	 minmax(Type,5,B,M,S,U),
+	 move(B,S,M,B2),
+    nl,
+    write('Computer places '),
+    write(M),
+    write(' in square '),
+	 S1 is S+1,
+    write(S1),
+    write(' (utility: '),
+    write(U),
+    write(')'),
+    write('.')
+    .
 %.......................................
 % moves
 %.......................................
