@@ -185,7 +185,7 @@ human_playing(M) :-
     .
 
 set_ai(N) :-
-	write('Please choose computer AI : random (1), goodminmax(2), badminmax(2), nominmax(2)'),	
+	write('Please choose computer AI : random (1), goodminmax(2), badminmax(3), nominmax(4)'),	
 	read(C),
 	((C == 1, asserta( player(N, computer1))) ; (C == 2, asserta( player(N, computer2))); (C == 3, asserta( player(N, computer3))); (C == 4, asserta( player(N, computer4)))), !
 	.	
