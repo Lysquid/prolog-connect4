@@ -18,7 +18,7 @@ score2(B, M, C, L, S, P):-
     cell(B, C, L, V),
     not(inverse_mark(M, V)),
     not(blank_mark(V)),
-    S is 30-(C-3)*(C-3)-L*3.
+    S is (30-(C-3)*(C-3)-L*3)/10.
 score2(B, M, C, L, S, P):- 
     S is 0.
 
