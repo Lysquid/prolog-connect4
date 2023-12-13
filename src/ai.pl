@@ -139,6 +139,6 @@ better(M, _S1, _U1, S2, U2, S, U) :- %otherwise
 
 
 
-utility(computer2, B, U) :- heuristic1(B, x, U, 2).
+utility(computer2,B, U) :- heuristic1(B, x, U, 2).
 utility(computer3,B, U) :- heuristic2(B, x, U, 2).
 utility(computer4,B, U) :- heuristic3(B, x, U, 2).
