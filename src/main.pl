@@ -56,12 +56,9 @@ asserta( player(P, Type) ) - indicates which players are human/computer.
 */
 
 
-?- consult(random).
 ?- consult(facts).
 ?- consult(output).
 ?- consult(board).
-?- consult(utilities).
-?- consult(ai).
 ?- consult(game).
 
 
@@ -85,7 +82,6 @@ hello :-
     .
 
 initialize :-
-    random_seed,          %%% use current time to initialize random number generator
     blank_mark(E),
     asserta( board([
         E, E, E, E, E, E, E,
