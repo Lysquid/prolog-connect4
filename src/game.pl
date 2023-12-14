@@ -76,7 +76,7 @@ make_move2(Ai, P, B, B2) :-
     writef('Computer places %w in column %w (utility: %w).', [M, S1, U]), nl.
 
 
-ai_move(random, Board, _, Move, 0) :-
+ai_move(random_ai, Board, _, Move, 0) :-
     possible_moves(Board, Moves),
     random_member(Move, Moves).
 
