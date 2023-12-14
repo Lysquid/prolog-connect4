@@ -112,7 +112,7 @@ read_play_again(V) :-
     .
 
 read_play_again(V) :-
-    write('Please enter y or n.'),
+    write('Please enter y or n.'), nl, nl,
     read_play_again(V)
     .
 
