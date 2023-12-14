@@ -1,8 +1,13 @@
 ?- consult(board).
 ?- consult(facts).
-?- consult(heuristic1).
-?- consult(heuristic2).
-?- consult(heuristic3).
+?- consult(heuristics/good).
+?- consult(heuristics/bad).
+?- consult(heuristics/no).
+
+
+utility(good_heuritic, B, U) :- good_heuristic(B, x, U, 2).
+utility(bad_heuritic, B, U) :- bad_heuristic(B, x, U, 2).
+utility(no_heuritic, B, U) :- no_heuristic(B, x, U, 2).
 
 
 
@@ -125,9 +130,3 @@ better2(_, R, S1, U1, _, _, S, U) :- %random
 better2(_, _, _, _, S2, U2, S, U) :- %random
     S = S2,
     U = U2, !.
-
-
-
-utility(good_minmax, B, U) :- heuristic1(B, x, U, 2).
-utility(bad_minmax, B, U) :- heuristic2(B, x, U, 2).
-utility(no_minmax, B, U) :- heuristic3(B, x, U, 2).

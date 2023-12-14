@@ -80,5 +80,5 @@ ai_move(random, Board, _, Move, 0) :-
     possible_moves(Board, Moves),
     random_member(Move, Moves).
 
-ai_move(Ai, Board, Mark, Move, Utility) :-
-    minmax(Ai, 4, Board, Mark, Move, Utility).
+ai_move(Heuristic, Board, Mark, Move, Utility) :-
+    minmax(Heuristic, 5, Board, Mark, Move, Utility).

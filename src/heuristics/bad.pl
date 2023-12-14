@@ -1,7 +1,7 @@
-?- consult(board).
-?- consult(facts).
+?- consult('../board').
+?- consult('../facts').
 
-heuristic2(B, M, S, P) :-
+bad_heuristic(B, M, S, P) :-
     score(B, M, 0, 0, S, P).
 
 score(_, _, 7, 5, 0, _).

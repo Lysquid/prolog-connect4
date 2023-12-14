@@ -1,7 +1,7 @@
-?- consult(board).
-?- consult(facts).
+?- consult('../board').
+?- consult('../facts').
 
-heuristic1(B, M, S, P) :-
+good_heuristic(B, M, S, P) :-
     streak_sum(B, M, 0, 0, S, P).
 
 
