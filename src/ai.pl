@@ -12,29 +12,30 @@ utility(no_heuritic, B, U) :- no_heuristic(B, x, U, 2).
 
 
 minmax(Heuristic,D, B, M, S, U) :-
-    Al is -inf, Be is inf, minmax2(Heuristic,D, B, M, S, U, Al, Be).
+    Al is -inf,
+    Be is inf,
+    minmax2(Heuristic, D, B, M, S, U, Al, Be).
 
+% someone is winning
+minmax2(_, D, B, _, S, U, _, _) :- 
+    win(B, AnyMark),
+    minmax2_win(AnyMark, D, S, U).
 
-minmax2(_, D, B, M, S, U, _, _) :- 
-    win(B, M),
-    minmax2_win(M, D, S, U).
-
-minmax2(_, D, B, M, S, U, _, _) :- 
-    win(B, opponent_mark(M)),
-    minmax2_win(M, D, S, U).
-
+% reach bottom depth
 minmax2(Heuristic, 0, B, _, _, U, _, _) :-
-    utility(Heuristic,B, U).
+    utility(Heuristic, B, U).
 
+% cas général récursif
 minmax2(Heuristic,D, B, M, S, U, Al, Be) :- 
     D2 is D - 1,
-    possible_moves(B, MVS),
-    !,
-    best(Heuristic,D2, B, M, MVS, S, U, Al, Be), !.
+    possible_moves(B, Moves),
+    best(Heuristic,D2, B, M, Moves, S, U, Al, Be), !.
 
+% cas où on atteint la fin de partie (je crois ?)
 minmax2(Heuristic, _, B, _, _, U, _, _) :-
     utility(Heuristic, B, U).
 
+
 minmax2_win(M, D, _, U) :-
     minimizing(M),
     U is -100 - D.
@@ -42,15 +43,6 @@ minmax2_win(M, D, _, U) :-
 minmax2_win(M, D, _, U) :-
     maximizing(M),
     U is 100 + D.
-
-minmax2_lose(M, D, _, U) :-
-    minimizing(M),
-    U is 100 + D.
-
-minmax2_lose(M, D, _, U) :-
-    maximizing(M),
-    U is -100 - D.
-
 
 
 

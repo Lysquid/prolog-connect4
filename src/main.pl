@@ -96,7 +96,6 @@ initialize :-
 goodbye :-
     board(B),
     nl,
-    nl,
     write('Game over: '),
     output_winner(B),
     retract(board(_)),
@@ -187,6 +186,6 @@ ai_playing(N, 4) :- asserta( player(N, no_heuritic)).
 
 ai_playing(N, _) :-
     nl,
-    write('Please a valid number.'), nl,
+    write('Please enter a valid number.'), nl, nl,
     set_ai(N).
 

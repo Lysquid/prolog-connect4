@@ -18,19 +18,15 @@ play(P) :-
 %.......................................
 % determines when the game is over
 
-game_over(P, B) :-
-    game_over2(P, B)
-    .
 
-game_over2(P, B) :-
+game_over(P, B) :-
     opponent_mark(P, M),   %%% game is over if opponent wins
     win(B, M)
     .
 
-% game_over2(P, B) :-
-%     blank_mark(E),
-%     not(square(B,S,E))     %%% game is over if opponent wins
-%     .
+game_over(_, B) :-
+    column_is_full(B, _)    %%% game is over if opponent wins
+    .  
 
 
 %.......................................
@@ -41,44 +37,57 @@ game_over2(P, B) :-
 
 make_move(P, B) :-
     player(P, Type),
-    make_move2(Type, P, B, B2),
+    get_move(Type, P, B, Move),
+    player_mark(P, M),
+    move(B, Move, M, B2),
     retract( board(_) ),
     asserta( board(B2) )
     .
 
-make_move2(human, P, B, B2) :-
+get_move(human, P, B, Move) :-
     nl,
     nl,
     writef('Player %w move?', [P]), nl,
-    read(S1), nl,
-    S is S1-1,
+    read(Col), nl,
+    Move is Col-1,
+    not(column_is_full(B, Move)),
     % blank_mark(E),
-    player_mark(P, M),
-    move(B, S, M, B2),
     !
     . 
 
-make_move2(human, P, B, B2) :-
+get_move(human, P, B, Move) :-
     nl,
     nl,
-    write('Please enter a valid number.'),
-    make_move2(human,P,B,B2).
+    write('Please enter a valid column.'),
+    get_move(human, P, B, Move).
 
-make_move2(Ai, P, B, B2) :-
+get_move(Ai, P, B, Move) :-
     nl,
     nl,
-    writef('Computer (%w) is thinking about next move...', [Ai]), nl,
+    writef('Computer (%w) is thinking about next move...', [Ai]), nl, nl,
     player_mark(P, M),
-    ai_move(Ai,B,M,S,U),
-    move(B,S,M,B2),
-    nl,
-    S1 is S+1,
-    writef('Computer places %w in column %w (utility: %w).', [M, S1, U]), nl.
+    ai_move(Ai, B, M, Move),
+    legal_move(B, Move).
+
+legal_move(B, Move) :-
+    not(column_is_full(B, Move)).
+
+legal_move(_, _) :-
+    writef('The column is full, computer loses'),
+    false.
 
 
-ai_move(random_ai, Board, _, Move, 0) :-
+ai_move(random_ai, Board, Mark, Move) :-
     possible_moves(Board, Moves),
-    random_member(Move, Moves).
+    random_member(Move, Moves),
+    Col is Move+1,
+    writef('Computer places %w in column %w.', [Mark, Col]), nl.
 
-ai_move(Heuristic, Board, Mark, Move, Utility) :-
-    minmax(Heuristic, 5, Board, Mark, Move, Utility).
+ai_move(Heuristic, Board, Mark, Move) :-
+    minmax(Heuristic, 4, Board, Mark, Move, Utility),
+    Col is Move+1,
+    writef('Computer places %w in column %w (utility: %w).', [Mark, Col, Utility]), nl.
+
+ai_move(_, _, _, _) :-
+    write('Comupter failed to provied a move, and loses.'), nl,
+    false.
