@@ -1,10 +1,21 @@
-example_board([
+?- consult(utilities).
+
+test_board1([
     e, e, e, e, e, e, e,
     e, e, e, e, x, e, e,
     e, e, x, x, o, e, e,
     e, e, x, x, o, e, e,
     e, x, o, o, o, e, e,
     e, x, o, x, e, o, x
+]).
+
+test_board2([
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e,
+    e, o, e, e, e, e, e,
+    o, x, x, x, e, e, e
 ]).
 
 empty_board([
@@ -20,10 +31,6 @@ in_board(C, L) :-
     between(0, 6, C),
     between(0, 5, L).
     
-cell(B, C, L, M) :- 
-    I is L * 7 + C,
-    nth0(I, B, M).
-
 win(B, M) :- setof([C, L], (in_board(C, L), win2(B, M, C, L)), _).
 
 win2(B, M, C, L) :- 
@@ -40,6 +47,7 @@ win2(B, M, C, L) :-
     ), !.
 
 win3(_, _, _, _, _, _, N) :- N >= 4.
+
 win3(B, M, C, L, DC, DL, N) :- 
     NC is C + DC,
     NL is L + DL,

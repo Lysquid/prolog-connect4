@@ -1,1 +1,2 @@
-heuristic3(B, M, S, P) :- S is 0.
+heuristic3(_, _, S, _) :-
+    S is 0.

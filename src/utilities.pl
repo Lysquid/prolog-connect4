@@ -1,5 +1,3 @@
-?- consult(board).
-?- consult(output).
 ?- consult(facts).
 %.......................................
 % move
@@ -17,15 +15,6 @@ move(B,C,M,B2) :-
 % column_is_not_full
 %.....
 % checks if the input column C of the board B is full
-
-example_board([
-    e, e, x, e, e, e, e,
-    e, e, e, e, x, e, e,
-    x, e, x, x, o, e, e,
-    x, e, o, x, o, e, e,
-    x, x, o, o, o, e, e,
-    x, x, o, x, x, o, x
-]).
 
 column_is_not_full(B,C) :-
 	nth0(C, B, V),
@@ -70,7 +59,7 @@ set_item(L, N, V, L2) :-
     set_item2(L, N, V, 1, L2)
         .
 
-set_item2( [], N, V, A, L2) :- 
+set_item2( [], N, _, _, L2) :- 
     N == -1, 
     L2 = []
     .

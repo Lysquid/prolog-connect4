@@ -5,7 +5,7 @@ heuristic1(B, M, S, P) :-
     streak_sum(B, M, 0, 0, S, P).
 
 
-streak_sum(B, M, 7, 5, 0, P).
+streak_sum(_, _, 7, 5, 0, _).
 
 streak_sum(B, M, 7, L, S, P) :- 
     NL is L + 1,
@@ -31,7 +31,7 @@ streak(B, M, C, L, S, P) :-
     S is S1 + S2 + S3 + S4 - S5 - S6 - S7 - S8.
 
 
-streak_val(B, M, C, L, DC, DL, 0, P) :-
+streak_val(_, _, C, L, DC, DL, 0, _) :-
     C1 is C + 3*DC,
     L1 is L + 3*DL,
     not(in_board(C1, L1)).
@@ -40,10 +40,10 @@ streak_val(B, M, C, L, DC, DL, S, P) :-
     streak_nb(B, M, C, L, DC, DL, S2, 0),
     S is S2**P.
 
-streak_val(B, M, C, L, DC, DL, 0, P).
+streak_val(_, _, _, _, _, _, 0, _).
 
 
-streak_nb(B, M, C, L, DC, DL, 0, 4).
+streak_nb(_, _, _, _, _, _, 0, 4).
 
 streak_nb(B, M, C, L, DC, DL, T, N) :-
     cell(B, C, L, V),
@@ -59,6 +59,6 @@ streak_nb2(B, M, C, L, T, NT) :-
     cell(B, C, L, M),
     T is NT+1.
 
-streak_nb2(B, M, C, L, NT, NT) :-
+streak_nb2(B, _, C, L, NT, NT) :-
     cell(B, C, L, V),
     blank_mark(V).

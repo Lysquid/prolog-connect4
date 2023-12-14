@@ -56,23 +56,19 @@ asserta( player(P, Type) ) - indicates which players are human/computer.
 */
 
 
+?- consult(random).
+?- consult(facts).
+?- consult(output).
+?- consult(board).
+?- consult(utilities).
+?- consult(heuristic1).
+?- consult(ai).
+
 
 run :-
-    imports,
     hello,          %%% Display welcome message, initialize game
     play(1),        %%% Play the game starting with player 1
     goodbye         %%% Display end of game message
-    .
-
-imports :-
-    consult(random),
-    consult(facts),
-    consult(output),
-    consult(board),
-    consult(list),
-    consult(utilities),
-    consult(heuristic3),
-    consult(ai)
     .
 
 run :-
@@ -159,7 +155,7 @@ set_players(2) :-
     asserta( player(2, human) ), !
     .
 
-set_players(N) :-
+set_players(_) :-
     nl,
     write('Please enter 0, 1, or 2.'),
     read_players, !
@@ -170,15 +166,15 @@ human_playing(M) :-
     M == 'x',
     asserta( player(1, human) ),
     set_ai(2), !
-	 .
+	.
 
 human_playing(M) :- 
     M == 'o',
     asserta( player(2, human) ),
-	 set_ai(1), ! 	
-	 .
+	set_ai(1), ! 	
+	.
 
-human_playing(M) :-
+human_playing(_) :-
     nl,
     write('Please enter x or o.'),
     set_players(1)
@@ -247,7 +243,7 @@ make_move2(human, P, B, B2) :-
     read(S1),
 
     S is S1-1,
-    blank_mark(E),
+    % blank_mark(E),
     player_mark(P, M),
     move(B, S, M, B2),
     !
@@ -284,7 +280,7 @@ make_move2(computer2, P, B, B2) :-
     write('Computer (minmax) is thinking about next move...'),
     nl,
     player_mark(P, M),
-	 minmax(computer2,5,B,M,S,U),
+	 minmax(computer2,4,B,M,S,U),
 	 move(B,S,M,B2),
     nl,
     write('Computer places '),
@@ -303,7 +299,7 @@ make_move2(computer3, P, B, B2) :-
     write('Computer (minmax) is thinking about next move...'),
     nl,
     player_mark(P, M),
-	 minmax(computer3,5,B,M,S,U),
+	 minmax(computer3,4,B,M,S,U),
 	 move(B,S,M,B2),
     nl,
     write('Computer places '),
@@ -322,7 +318,7 @@ make_move2(computer3, P, B, B2) :-
     write('Computer (minmax) is thinking about next move...'),
     nl,
     player_mark(P, M),
-	 minmax(computer4,5,B,M,S,U),
+	 minmax(computer4,4,B,M,S,U),
 	 move(B,S,M,B2),
     nl,
     write('Computer places '),

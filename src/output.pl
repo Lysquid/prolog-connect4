@@ -28,7 +28,7 @@ output_winner(B) :-
     !
     .
 
-output_winner(B) :-
+output_winner(_) :-
     write('No winner.')
     .
 
@@ -40,11 +40,11 @@ output_interline(6) :-
     write('└───┴───┴───┴───┴───┴───┴───┘'),
     nl.
 
-output_interline(X) :-
+output_interline(_) :-
     write('├───┼───┼───┼───┼───┼───┼───┤'),
     nl.
 
-output_lines(B,6).
+output_lines(_,6).
 
 output_lines(B,C) :-
     output_cell(B, 0, C),
@@ -58,7 +58,7 @@ output_header :-
     nl
     .
 
-output_cell(B,7,L) :-
+output_cell(_,7,_) :-
     write('│'),
     nl,
     !
@@ -105,8 +105,5 @@ output_value(D,S,U) :-
     write(U), !
     .
 
-output_value(D,S,U) :- 
-    true
-    .
-
+output_value(_,_,_).
 
