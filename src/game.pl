@@ -1,7 +1,6 @@
 ?- consult(facts).
 ?- consult(output).
 ?- consult(board).
-?- consult(utilities).
 ?- consult(ai).
 
 play(P) :-
@@ -123,7 +122,8 @@ make_move2(computer3, P, B, B2) :-
     write(')'),
     write('.')
     .
-    make_move2(computer4, P, B, B2) :-
+
+make_move2(computer4, P, B, B2) :-
     nl,
     nl,
     write('Computer (minmax) is thinking about next move...'),

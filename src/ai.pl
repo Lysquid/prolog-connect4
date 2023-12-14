@@ -1,11 +1,9 @@
 ?- consult(board).
-?- consult(utilities).
 ?- consult(facts).
 ?- consult(heuristic1).
 ?- consult(heuristic2).
 ?- consult(heuristic3).
 
-possible_moves(B, L) :- findall(C, (in_board(C, 0), column_is_not_full(B, C)), L).
 
 minmax(Type,D, B, M, S, U) :- Al is -inf, Be is inf, minmax2(Type,D, B, M, S, U, Al, Be).
 
@@ -18,7 +16,8 @@ minmax2(_, D, B, M, S, U, _, _) :-
     win(B, opponent_mark(M)),
     minmax2_win(M, D, S, U).
 
-minmax2(Type, 0, B, _, _, U, _, _) :- utility(Type,B, U).
+minmax2(Type, 0, B, _, _, U, _, _) :-
+    utility(Type,B, U).
 
 minmax2(Type,D, B, M, S, U, Al, Be) :- 
     D2 is D - 1,
@@ -26,7 +25,8 @@ minmax2(Type,D, B, M, S, U, Al, Be) :-
     !,
     best(Type,D2, B, M, MVS, S, U, Al, Be), !.
 
-minmax2(Type, _, B, _, _, U, _, _) :- utility(Type, B, U).
+minmax2(Type, _, B, _, _, U, _, _) :-
+    utility(Type, B, U).
 
 minmax2_win(M, D, _, U) :-
     minimizing(M),

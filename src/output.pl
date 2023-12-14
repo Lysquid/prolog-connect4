@@ -3,7 +3,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ?- consult(board).
-?- consult(utilities).
 
 output_players :- 
     nl,
