@@ -7,13 +7,9 @@
 output_players :- 
     nl,
     player(1, V1),
-    write('Player 1 is '),   %%% either human or computer
-    write(V1),
-
-    nl,
+    writef('Player 1 is %w', [V1]), nl,   %%% either human or computer
     player(2, V2),
-    write('Player 2 is '),   %%% either human or computer
-    write(V2), 
+    writef('Player 2 is %w', [V2]), nl,   %%% either human or computer
     !
     .
 
@@ -101,11 +97,8 @@ output_board(B) :-
 output_value(D,S,U) :-
     D == 1,
     nl,
-    write('Square '),
-    write(S),
-    write(', utility: '),
-    write(U), !
-    .
+    write('Square %S utility: %', [S, U]), nl, !
+    . 
 
 output_value(_,_,_).
 

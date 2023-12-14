@@ -49,9 +49,7 @@ make_move(P, B) :-
 make_move2(human, P, B, B2) :-
     nl,
     nl,
-    write('Player '),
-    write(P),
-    write(' move? '), nl,
+    writef('Player %w move?', [P]), nl,
     read(S1), nl,
     S is S1-1,
     % blank_mark(E),
@@ -66,78 +64,21 @@ make_move2(human, P, B, B2) :-
     write('Please enter a valid number.'),
     make_move2(human,P,B,B2).
 
-make_move2(computer1, P, B, B2) :-
+make_move2(Ai, P, B, B2) :-
     nl,
     nl,
-    write('Computer (random) is thinking about next move...'),
+    writef('Computer (%w) is thinking about next move...', [Ai]), nl,
     player_mark(P, M),
-    randomai(B,S,M),
+    ai_move(Ai,B,M,S,U),
     move(B,S,M,B2),
-    
     nl,
-    nl,
-    write('Computer places '),
-    write(M),
-    write(' in square '),
     S1 is S+1,
-    write(S1),
-    write('.').
+    writef('Computer places %w in column %w (utility: %w).', [M, S1, U]), nl.
 
-make_move2(computer2, P, B, B2) :-
-    nl,
-    nl,
-    write('Computer (minmax) is thinking about next move...'),
-    nl,
-    player_mark(P, M),
-    minmax(computer2,4,B,M,S,U),
-    move(B,S,M,B2),
-    nl,
-    write('Computer places '),
-    write(M),
-    write(' in square '),
-    S1 is S+1,
-    write(S1),
-    write(' (utility: '),
-    write(U),
-    write(')'),
-    write('.')
-    . 
 
-make_move2(computer3, P, B, B2) :-
-    nl,
-    nl,
-    write('Computer (minmax) is thinking about next move...'),
-    nl,
-    player_mark(P, M),
-    minmax(computer3,4,B,M,S,U),
-    move(B,S,M,B2),
-    nl,
-    write('Computer places '),
-    write(M),
-    write(' in square '),
-    S1 is S+1,
-    write(S1),
-    write(' (utility: '),
-    write(U),
-    write(')'),
-    write('.')
-    .
+ai_move(random, Board, _, Move, 0) :-
+    possible_moves(Board, Moves),
+    random_member(Move, Moves).
 
-make_move2(computer4, P, B, B2) :-
-    nl,
-    nl,
-    write('Computer (minmax) is thinking about next move...'),
-    nl,
-    player_mark(P, M),
-    minmax(computer4,4,B,M,S,U),
-    move(B,S,M,B2),
-    nl,
-    write('Computer places '),
-    write(M),
-    write(' in square '),
-    S1 is S+1,
-    write(S1),
-    write(' (utility: '),
-    write(U),
-    write(')'),
-    write('.').
+ai_move(Ai, Board, Mark, Move, Utility) :-
+    minmax(Ai, 4, Board, Mark, Move, Utility).

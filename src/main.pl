@@ -181,16 +181,16 @@ set_ai(N) :-
     ai_playing(N, Ai).
 
 ai_playing(N, 1) :-
-    asserta( player(N, computer1)).
+    asserta( player(N, random)).
 
-ai_playing(N, 1) :- 
-    asserta( player(N, computer2)).
+ai_playing(N, 2) :- 
+    asserta( player(N, good_minmax)).
 
-ai_playing(N, 1) :-
-    asserta( player(N, computer3)).
+ai_playing(N, 3) :-
+    asserta( player(N, bad_minmax)).
 
 ai_playing(N, 4) :-
-    asserta( player(N, computer4)).
+    asserta( player(N, no_minmax)).
 
 ai_playing(N, _) :-
     nl,
