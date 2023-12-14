@@ -76,7 +76,7 @@ run :-
 hello :-
     initialize,
     nl,
-    write('Welcome to Connect4.'),
+    write('Welcome to Connect4.'), nl, nl,
     read_players,
     output_players
     .
@@ -95,9 +95,8 @@ initialize :-
 
 goodbye :-
     board(B),
-    nl,
-    write('Game over: '),
-    output_winner(B),
+    write('Game over: '), nl, nl,
+    output_winner(B), nl, nl,
     retract(board(_)),
     retract(player(_,_)),
     read_play_again(V), !,
@@ -107,24 +106,18 @@ goodbye :-
     .
 
 read_play_again(V) :-
-    nl,
-    nl,
     write('Play again (y/n)? '), nl,
     read(V), nl,
     (V == 'y' ; V == 'n'), !
     .
 
 read_play_again(V) :-
-    nl,
-    nl,
     write('Please enter y or n.'),
     read_play_again(V)
     .
 
 
 read_players :-
-    nl,
-    nl,
     write('Number of human players? '), nl,
     read(N), nl,
     set_players(N)
@@ -136,7 +129,6 @@ set_players(0) :-
     .
 
 set_players(1) :-
-    nl,
     write('Is human playing first? (y/n)'), nl,
     read(First), nl,
     human_playing(First), !
@@ -148,8 +140,7 @@ set_players(2) :-
     .
 
 set_players(_) :-
-    nl,
-    write('Please enter 0, 1, or 2.'),
+    write('Please enter 0, 1, or 2.'), nl, nl,
     read_players, !
     .
 
@@ -165,8 +156,7 @@ human_playing(n) :-
 	.
 
 human_playing(_) :-
-    nl,
-    write('Please enter y or n.'),
+    write('Please enter y or n.'), nl, nl,
     set_players(1)
     .
 
@@ -185,7 +175,6 @@ ai_playing(N, 3) :- asserta( player(N, bad_heuritic)).
 ai_playing(N, 4) :- asserta( player(N, no_heuritic)).
 
 ai_playing(N, _) :-
-    nl,
     write('Please enter a valid number.'), nl, nl,
     set_ai(N).
 

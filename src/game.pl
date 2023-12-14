@@ -45,9 +45,7 @@ make_move(P, B) :-
     .
 
 get_move(human, P, B, Move) :-
-    nl,
-    nl,
-    writef('Player %w move?', [P]), nl,
+    writef('Player %w move?', [P]), nl, nl,
     read(Col), nl,
     Move is Col-1,
     not(column_is_full(B, Move)),
@@ -56,14 +54,10 @@ get_move(human, P, B, Move) :-
     . 
 
 get_move(human, P, B, Move) :-
-    nl,
-    nl,
-    write('Please enter a valid column.'),
+    write('Please enter a valid column.'), nl, nl,
     get_move(human, P, B, Move).
 
 get_move(Ai, P, B, Move) :-
-    nl,
-    nl,
     writef('Computer (%w) is thinking about next move...', [Ai]), nl, nl,
     player_mark(P, M),
     ai_move(Ai, B, M, Move),
@@ -73,7 +67,7 @@ legal_move(B, Move) :-
     not(column_is_full(B, Move)).
 
 legal_move(_, _) :-
-    writef('The column is full, computer loses'),
+    writef('The column is full, computer loses'), nl, nl,
     false.
 
 
@@ -81,13 +75,13 @@ ai_move(random_ai, Board, Mark, Move) :-
     possible_moves(Board, Moves),
     random_member(Move, Moves),
     Col is Move+1,
-    writef('Computer places %w in column %w.', [Mark, Col]), nl.
+    writef('Computer places %w in column %w.', [Mark, Col]), nl, nl.
 
 ai_move(Heuristic, Board, Mark, Move) :-
     minmax(Heuristic, 4, Board, Mark, Move, Utility),
     Col is Move+1,
-    writef('Computer places %w in column %w (utility: %w).', [Mark, Col, Utility]), nl.
+    writef('Computer places %w in column %w (utility: %w).', [Mark, Col, Utility]), nl, nl.
 
 ai_move(_, _, _, _) :-
-    write('Comupter failed to provied a move, and loses.'), nl,
+    write('Comupter failed to provied a move, and loses.'), nl, nl,
     false.

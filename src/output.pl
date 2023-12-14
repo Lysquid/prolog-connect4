@@ -5,11 +5,10 @@
 ?- consult(board).
 
 output_players :- 
-    nl,
     player(1, V1),
     writef('Player 1 is %w', [V1]), nl,   %%% either human or computer
     player(2, V2),
-    writef('Player 2 is %w', [V2]), nl,   %%% either human or computer
+    writef('Player 2 is %w', [V2]), nl, nl,   %%% either human or computer
     !
     .
 
@@ -52,9 +51,8 @@ output_lines(B,C) :-
     .
 
 output_header :-
-    write('  1   2   3   4   5   6   7'),
-    nl
-    .
+    write('  1   2   3   4   5   6   7'), nl
+    . 
 
 output_cell(_,7,_) :-
     write('│'),
@@ -86,19 +84,7 @@ output_cell2(o) :-
     .
 
 output_board(B) :-
-    nl,
-    nl,
     output_header,
     output_interline(0),
     output_lines(B,0),
-    output_header.
-
-
-output_value(D,S,U) :-
-    D == 1,
-    nl,
-    write('Square %S utility: %', [S, U]), nl, !
-    . 
-
-output_value(_,_,_).
-
+    output_header, nl.
