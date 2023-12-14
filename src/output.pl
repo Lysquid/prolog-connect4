@@ -2,6 +2,9 @@
 %%% OUTPUT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+?- consult(board).
+?- consult(utilities).
+
 output_players :- 
     nl,
     player(1, V1),

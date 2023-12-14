@@ -61,8 +61,8 @@ asserta( player(P, Type) ) - indicates which players are human/computer.
 ?- consult(output).
 ?- consult(board).
 ?- consult(utilities).
-?- consult(heuristic1).
 ?- consult(ai).
+?- consult(game).
 
 
 run :-
@@ -78,9 +78,6 @@ run :-
 
 hello :-
     initialize,
-%    cls,
-    nl,
-    nl,
     nl,
     write('Welcome to Connect4.'),
     read_players,
@@ -117,8 +114,8 @@ goodbye :-
 read_play_again(V) :-
     nl,
     nl,
-    write('Play again (y/n)? '),
-    read(V),
+    write('Play again (y/n)? '), nl,
+    read(V), nl,
     (V == 'y' ; V == 'n'), !
     .
 
@@ -133,21 +130,21 @@ read_play_again(V) :-
 read_players :-
     nl,
     nl,
-    write('Number of human players? '),
-    read(N),
+    write('Number of human players? '), nl,
+    read(N), nl,
     set_players(N)
     .
 
 set_players(0) :- 
     set_ai(1),
- 	 set_ai(2), !
-	 .
+ 	set_ai(2), !
+    .
 
 set_players(1) :-
     nl,
-    write('Is human playing x or o (x moves first)? '),
-    read(M),
-    human_playing(M), !
+    write('Is human playing first? (y/n)'), nl,
+    read(First), nl,
+    human_playing(First), !
     .
 
 set_players(2) :- 
@@ -162,186 +159,45 @@ set_players(_) :-
     .
 
 
-human_playing(M) :- 
-    M == 'x',
+human_playing(y) :- 
     asserta( player(1, human) ),
     set_ai(2), !
 	.
 
-human_playing(M) :- 
-    M == 'o',
+human_playing(n) :- 
     asserta( player(2, human) ),
-	set_ai(1), ! 	
+	set_ai(1), !
 	.
 
 human_playing(_) :-
     nl,
-    write('Please enter x or o.'),
+    write('Please enter y or n.'),
     set_players(1)
     .
 
 set_ai(N) :-
-	write('Please choose computer AI : random (1), goodminmax(2), badminmax(3), nominmax(4)'),	
-	read(C),
-	((C == 1, asserta( player(N, computer1))) ; (C == 2, asserta( player(N, computer2))); (C == 3, asserta( player(N, computer3))); (C == 4, asserta( player(N, computer4)))), !
-	.	
+	write('Please choose computer AI:'), nl,
+    write('1. random'), nl,
+    write('2. good minmax'), nl,
+    write('3. bad minmax'), nl,
+    write('4. no minmax'), nl,
+	read(Ai), nl,
+    ai_playing(N, Ai).
 
+ai_playing(N, 1) :-
+    asserta( player(N, computer1)).
 
-play(P) :-
-    board(B), !,
-    output_board(B), !,
-    not(game_over(P, B)), !, 
-	 make_move(P, B), !,
-    next_player(P, P2), !,
-    play(P2), !
-    .
+ai_playing(N, 1) :- 
+    asserta( player(N, computer2)).
 
+ai_playing(N, 1) :-
+    asserta( player(N, computer3)).
 
+ai_playing(N, 4) :-
+    asserta( player(N, computer4)).
 
-%.......................................
-% game_over
-%.......................................
-% determines when the game is over
-%
-game_over(P, B) :-
-    game_over2(P, B)
-    .
-
-game_over2(P, B) :-
-    opponent_mark(P, M),   %%% game is over if opponent wins
-    win(B, M)
-    .
-
-% game_over2(P, B) :-
-%     blank_mark(E),
-%     not(square(B,S,E))     %%% game is over if opponent wins
-%     .
-
-
-%.......................................
-% make_move
-%.......................................
-% requests next move from human/computer, 
-% then applies that move to the given board
-%
-
-make_move(P, B) :-
-    player(P, Type),
-
-    make_move2(Type, P, B, B2),
-
-    retract( board(_) ),
-    asserta( board(B2) )
-    .
-
-make_move2(human, P, B, B2) :-
+ai_playing(N, _) :-
     nl,
-    nl,
-    write('Player '),
-    write(P),
-    write(' move? '),
-    read(S1),
-
-    S is S1-1,
-    % blank_mark(E),
-    player_mark(P, M),
-    move(B, S, M, B2),
-    !
-    .
-
-make_move2(human, P, B, B2) :-
-    nl,
-    nl,
-    write('Please select a numbered square.'),
-    make_move2(human,P,B,B2)
-    .
-
-make_move2(computer1, P, B, B2) :-
-	 nl,
-    nl,
-    write('Computer (random) is thinking about next move...'),
-    player_mark(P, M),
-	 randomai(B,S,M),
-	 move(B,S,M,B2),
-	
-    nl,
-    nl,
-    write('Computer places '),
-    write(M),
-    write(' in square '),
-	 S1 is S+1,
-    write(S1),
-    write('.')
-    .
-
-make_move2(computer2, P, B, B2) :-
-	 nl,
-    nl,
-    write('Computer (minmax) is thinking about next move...'),
-    nl,
-    player_mark(P, M),
-	 minmax(computer2,4,B,M,S,U),
-	 move(B,S,M,B2),
-    nl,
-    write('Computer places '),
-    write(M),
-    write(' in square '),
-	 S1 is S+1,
-    write(S1),
-    write(' (utility: '),
-    write(U),
-    write(')'),
-    write('.')
-    .
-make_move2(computer3, P, B, B2) :-
-	 nl,
-    nl,
-    write('Computer (minmax) is thinking about next move...'),
-    nl,
-    player_mark(P, M),
-	 minmax(computer3,4,B,M,S,U),
-	 move(B,S,M,B2),
-    nl,
-    write('Computer places '),
-    write(M),
-    write(' in square '),
-	 S1 is S+1,
-    write(S1),
-    write(' (utility: '),
-    write(U),
-    write(')'),
-    write('.')
-    .
-    make_move2(computer4, P, B, B2) :-
-	 nl,
-    nl,
-    write('Computer (minmax) is thinking about next move...'),
-    nl,
-    player_mark(P, M),
-	 minmax(computer4,4,B,M,S,U),
-	 move(B,S,M,B2),
-    nl,
-    write('Computer places '),
-    write(M),
-    write(' in square '),
-	 S1 is S+1,
-    write(S1),
-    write(' (utility: '),
-    write(U),
-    write(')'),
-    write('.')
-    .
-%.......................................
-% moves
-%.......................................
-% retrieves a list of available moves (empty squares) on a board.
-%
-
-moves(B,L) :-
-    not(win(B,x)),                %%% if either player already won, then there are no available moves
-    not(win(B,o)),
-    blank_mark(E),
-    findall(N, square(B,N,E), L), 
-    L \= []
-    .
+    write('Please a valid number.'), nl,
+    set_ai(N).
 
