@@ -166,6 +166,7 @@ set_ai(N) :-
     write('2. good heuristic'), nl,
     write('3. bad heuristic'), nl,
     write('4. no heuristic'), nl,
+    write('5. less good heuristic'), nl,
 	read(Ai), nl,
     ai_playing(N, Ai).
 
@@ -173,6 +174,7 @@ ai_playing(N, 1) :- asserta( player(N, random_ai)).
 ai_playing(N, 2) :- asserta( player(N, good_heuristic)).
 ai_playing(N, 3) :- asserta( player(N, bad_heuristic)).
 ai_playing(N, 4) :- asserta( player(N, no_heuristic)).
+ai_playing(N, 5) :- asserta( player(N, less_good_heuristic)).
 
 ai_playing(N, _) :-
     write('Please enter a valid number.'), nl, nl,

@@ -6,6 +6,7 @@
 
 
 utility(good_heuristic, B, U) :- good_heuristic(B, x, U, 2).
+utility(less_good_heuristic, B, U) :- good_heuristic(B, x, U, 1).
 utility(bad_heuristic, B, U) :- bad_heuristic(B, x, U, 2).
 utility(no_heuristic, B, U) :- no_heuristic(B, x, U, 2).
 
