@@ -45,7 +45,8 @@ make_move(P, B) :-
     .
 
 get_move(human, P, B, Move) :-
-    writef('Player %w move?', [P]), nl, nl,
+    player_char(P, Char),
+    writef('Player %w move?', [Char]), nl, nl,
     read(Col), nl,
     Move is Col-1,
     not(column_is_full(B, Move)),
@@ -58,30 +59,35 @@ get_move(human, P, B, Move) :-
     get_move(human, P, B, Move).
 
 get_move(Ai, P, B, Move) :-
-    writef('Computer (%w) is thinking about next move...', [Ai]), nl, nl,
-    player_mark(P, M),
-    ai_move(Ai, B, M, Move),
-    legal_move(B, Move).
+    player_char(P, Char),
+    writef('Computer %w (%w) is thinking...', [Char, Ai]), nl, nl,
+    ai_move(Ai, B, P, Move),
+    legal_move(B, P, Move).
 
-legal_move(B, Move) :-
+legal_move(B, _, Move) :-
     not(column_is_full(B, Move)).
 
-legal_move(_, _) :-
-    writef('The column is full, computer loses'), nl, nl,
+legal_move(_, Player, _) :-
+    player_char(Player, Char),
+    writef('The column is full, computer %w loses', [Char]), nl, nl,
     false.
 
 
-ai_move(random_ai, Board, Mark, Move) :-
+ai_move(random_ai, Board, Player, Move) :-
     possible_moves(Board, Moves),
     random_member(Move, Moves),
     Col is Move+1,
-    writef('Computer places %w in column %w.', [Mark, Col]), nl, nl.
+    player_char(Player, Char),
+    writef('Computer %w plays in column %w.', [Char, Col]), nl, nl.
 
-ai_move(Heuristic, Board, Mark, Move) :-
-    minmax(Heuristic, 5, Board, Mark, Move, Utility),
+ai_move(Heuristic, Board, Player, Move) :-
+    player_mark(Player, Mark),
+    minmax(Heuristic, 4, Board, Mark, Move, Utility),
     Col is Move+1,
-    writef('Computer places %w in column %w (utility: %w).', [Mark, Col, Utility]), nl, nl.
+    player_char(Player, Char),
+    writef('Computer %w plays in column %w (utility: %w).', [Char, Col, Utility]), nl, nl.
 
-ai_move(_, _, _, _) :-
-    write('Comupter failed to provied a move, and loses.'), nl, nl,
+ai_move(_, _, Player, _) :-
+    player_char(Player, Char),
+    writef('Comupter %w failed to provied a move, and loses.', [Char]), nl, nl,
     false.

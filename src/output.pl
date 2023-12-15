@@ -6,22 +6,26 @@
 
 output_players :- 
     player(1, V1),
-    writef('Player 1 is %w', [V1]), nl,   %%% either human or computer
+    player_char(1, Char1),
+    writef('Player 1 (%w) is %w', [Char1, V1]), nl,   %%% either human or computer
     player(2, V2),
-    writef('Player 2 is %w', [V2]), nl, nl,   %%% either human or computer
+    player_char(2, Char2),
+    writef('Player 2 (%w) is %w', [Char2, V2]), nl, nl,   %%% either human or computer
     !
     .
 
 
 output_winner(B) :-
     win(B,x),
-    write('X wins.'),
+    player_char(1, Char),
+    writef('%w wins.', [Char]),
     !
     .
 
 output_winner(B) :-
     win(B,o),
-    write('O wins.'),
+    player_char(2, Char),
+    writef('%w wins.', [Char]),
     !
     .
 
@@ -75,12 +79,10 @@ output_cell2(E) :-
     write(' '), !              %%% if square is empty, output the square number
     .
 
-output_cell2(x) :-
-    write('○'), !              %%% if square is marked, output the mark
-    .
-
-output_cell2(o) :-
-    write('●'), !              %%% if square is marked, output the mark
+output_cell2(Mark) :-
+    player_mark(Player, Mark),
+    player_char(Player, Char),
+    write(Char), !              %%% if square is marked, output the mark
     .
 
 output_board(B) :-

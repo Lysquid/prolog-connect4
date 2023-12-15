@@ -95,7 +95,7 @@ initialize :-
 
 goodbye :-
     board(B),
-    write('Game over: '), nl, nl,
+    write('Game over: '),
     output_winner(B), nl, nl,
     retract(board(_)),
     retract(player(_,_)),

@@ -9,7 +9,10 @@ inverse_mark('x', 'o'). %%% determines the opposite of the given mark
 inverse_mark('o', 'x').
 
 player_mark(1, 'x').    %%% the mark for the given player
-player_mark(2, 'o').    
+player_mark(2, 'o').
+
+player_char(1, '○').
+player_char(2, '●').
 
 opponent_mark(1, 'o').  %%% shorthand for the inverse mark of the given player
 opponent_mark(2, 'x').
