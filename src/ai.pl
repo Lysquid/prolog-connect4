@@ -5,9 +5,9 @@
 ?- consult(heuristics/no).
 
 
-utility(good_heuritic, B, U) :- good_heuristic(B, x, U, 2).
-utility(bad_heuritic, B, U) :- bad_heuristic(B, x, U, 2).
-utility(no_heuritic, B, U) :- no_heuristic(B, x, U, 2).
+utility(good_heuristic, B, U) :- good_heuristic(B, x, U, 2).
+utility(bad_heuristic, B, U) :- bad_heuristic(B, x, U, 2).
+utility(no_heuristic, B, U) :- no_heuristic(B, x, U, 2).
 
 
 

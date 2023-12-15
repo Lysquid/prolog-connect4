@@ -78,7 +78,7 @@ ai_move(random_ai, Board, Mark, Move) :-
     writef('Computer places %w in column %w.', [Mark, Col]), nl, nl.
 
 ai_move(Heuristic, Board, Mark, Move) :-
-    minmax(Heuristic, 4, Board, Mark, Move, Utility),
+    minmax(Heuristic, 5, Board, Mark, Move, Utility),
     Col is Move+1,
     writef('Computer places %w in column %w (utility: %w).', [Mark, Col, Utility]), nl, nl.
 

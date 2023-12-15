@@ -164,15 +164,15 @@ set_ai(N) :-
 	write('Please choose a computer AI:'), nl,
     write('1. random (no minmax)'), nl,
     write('2. good heuristic'), nl,
-    write('3. bad heuritic'), nl,
+    write('3. bad heuristic'), nl,
     write('4. no heuristic'), nl,
 	read(Ai), nl,
     ai_playing(N, Ai).
 
 ai_playing(N, 1) :- asserta( player(N, random_ai)).
-ai_playing(N, 2) :- asserta( player(N, good_heuritic)).
-ai_playing(N, 3) :- asserta( player(N, bad_heuritic)).
-ai_playing(N, 4) :- asserta( player(N, no_heuritic)).
+ai_playing(N, 2) :- asserta( player(N, good_heuristic)).
+ai_playing(N, 3) :- asserta( player(N, bad_heuristic)).
+ai_playing(N, 4) :- asserta( player(N, no_heuristic)).
 
 ai_playing(N, _) :-
     write('Please enter a valid number.'), nl, nl,
