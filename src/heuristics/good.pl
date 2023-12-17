@@ -4,6 +4,8 @@
 good_heuristic(B, M, S, P) :-
     streak_sum(B, M, 0, 0, S, P).
 
+% streak_sum walks the board and calculate the heuristic at each position, 
+% and sums the heuristics to get the heuristic for all the board
 
 streak_sum(_, _, 7, 5, 0, _).
 
@@ -18,6 +20,9 @@ streak_sum(B, M, C, L, S, P) :-
     S is NS + NNS.
 
 
+% given a position C, L calculates the streak in each direction for the mark M 
+% and the oppsotite mark IM and sums up all directions minus the IM score in all directions
+
 streak(B, M, C, L, S, P) :- 
     inverse_mark(M, IM),
     streak_val(B, M, C, L, 1, 0, S1, P),
@@ -31,6 +36,8 @@ streak(B, M, C, L, S, P) :-
     S is S1 + S2 + S3 + S4 - S5 - S6 - S7 - S8.
 
 
+% given a position and a direction, calculates the heuristic of the mark M
+
 streak_val(_, _, C, L, DC, DL, 0, _) :-
     C1 is C + 3*DC,
     L1 is L + 3*DL,
@@ -43,6 +50,8 @@ streak_val(B, M, C, L, DC, DL, S, P) :-
 streak_val(_, _, _, _, _, _, 0, _).
 
 
+% walks the board in the direction given, stops if length 4 is reached or an inverse mark is found
+
 streak_nb(_, _, _, _, _, _, 0, 4).
 
 streak_nb(B, M, C, L, DC, DL, T, N) :-
@@ -54,11 +63,12 @@ streak_nb(B, M, C, L, DC, DL, T, N) :-
     streak_nb(B, M, NC, NL, DC, DL, NT, NN),
     streak_nb2(B, M, C, L, T, NT).
 
-
+% if the cell is ours, we add 1 to the streak length
 streak_nb2(B, M, C, L, T, NT) :-
     cell(B, C, L, M),
     T is NT+1.
 
+% if the cell is empty, we continue withoud adding 1
 streak_nb2(B, _, C, L, NT, NT) :-
     cell(B, C, L, V),
     blank_mark(V).
