@@ -41,11 +41,12 @@ make_move(P, Type, B, B2) :-
 % asks the move of the player
 get_move(human, P, B, Move) :-
     player_char(P, Char),
-    writef('Player %w move?', [Char]), nl, nl,
+    writef('Player %w move?', [Char]), nl,
     read(Col), nl,
+    integer(Col),
     Move is Col-1,
-    not(column_is_full(B, Move)), !
-    . 
+    column_in_board(Move),
+    not(column_is_full(B, Move)).
 
 get_move(human, P, B, Move) :-
     write('Please enter a valid column.'), nl, nl,
@@ -55,16 +56,12 @@ get_move(Ai, P, B, Move) :-
     player_char(P, Char),
     writef('Computer %w (%w) is thinking...', [Char, Ai]), nl, nl,
     ai_move(Ai, B, P, Move),
-    legal_move(B, P, Move).
-
-
-% checks if an AI move is legal, stops the game if no
-legal_move(B, _, Move) :-
+    column_in_board(Move),
     not(column_is_full(B, Move)).
 
-legal_move(_, Player, _) :-
-    player_char(Player, Char),
-    writef('The column is full, computer %w loses', [Char]), nl, nl,
+get_move(_, P, _, _) :-
+    player_char(P, Char),
+    writef('The column is invalid, computer %w loses', [Char]), nl, nl,
     false.
 
 

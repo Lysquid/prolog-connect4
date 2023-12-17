@@ -88,7 +88,8 @@ play_again2(y) :-
 play_again2(n).
 
 play_again2(_) :-
-    write('Enter y or n.').
+    write('Enter y or n.'), nl, nl,
+    play_again().
     
 
 % reads the number of human players

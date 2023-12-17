@@ -18,6 +18,9 @@ in_board(C, L) :-
     between(0, 6, C),
     between(0, 5, L).
 
+% checks wether a column is within the bounds of the board
+column_in_board(C) :-
+    between(0, 6, C).
 
 % checks if the input column C of the board B is full
 column_is_full(B,C) :-
