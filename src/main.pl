@@ -47,12 +47,6 @@ Predicates with a numeric suffix represent a "nested" predicate.
 e.g. myrule2(...) is meant to be called from myrule(...) 
      and myrule3(...) is meant to be called from myrule2(...)
 
-
-There are only two assertions that are used in this implementation
-
-asserta( board(B) ) - the current board 
-asserta( player(P, Type) ) - indicates which players are human/computer.
-
 */
 
 
@@ -62,11 +56,12 @@ asserta( player(P, Type) ) - indicates which players are human/computer.
 ?- consult(game).
 
 
-% runs the game
+% displays a welcome message and run the game
 run :-
     nl, write('Welcome to Connect4.'), nl, nl,
     game.
 
+% run the game
 game :-
     initialize_board(Board),
     read_players(P1, P2),
@@ -74,16 +69,6 @@ game :-
     game_end(EndBoard),
     play_again. 
 
-
-% creates a blank board
-initialize_board([
-    e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e,
-    e, e, e, e, e, e, e
-]).
 
 % displays end of game message
 game_end(B) :-

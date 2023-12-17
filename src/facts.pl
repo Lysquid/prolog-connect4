@@ -1,3 +1,13 @@
+% creates a blank board
+initialize_board([
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e
+]).
+
 % determines the next player after the given player
 next_player(1, 2).
 next_player(2, 1).

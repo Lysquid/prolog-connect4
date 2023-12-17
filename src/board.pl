@@ -6,7 +6,7 @@ cell(B, C, L, M) :-
     nth0(I, B, M).
 
 
-% set the cell to mark M in column C and line L of boad B and copy it to B2
+% set the cell to mark M in column C and line L of board B and copy it to B2
 set_cell(B, C, L, E, B2) :- 
     I is L * 7 + C,
     nth0(I, B, _, R),

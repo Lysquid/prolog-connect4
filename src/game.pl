@@ -3,12 +3,15 @@
 ?- consult(board).
 ?- consult(ai).
 
-% play a game recursively (turn of player P)
+% play a game recursively
+% PlayerNo is the current player number
+% P1 is the current player type (human or ai type), P2 the other player type
 play(B, PlayerNo, P1, P2, EndBoard) :-
     output_board(B),
     make_move(PlayerNo, P1, B, B2),
     next_turn(B2, PlayerNo, P1, P2, EndBoard).
 
+% plays the next turn if if the game is not over
 next_turn(B, PlayerNo, P1, P2, EndBoard) :-
     next_player(PlayerNo, NextPlayerNo),
     not(game_over(NextPlayerNo, B)), 
@@ -82,5 +85,5 @@ ai_move(Heuristic, Board, Player, Move) :-
 
 ai_move(_, _, Player, _) :-
     player_char(Player, Char),
-    writef('Comupter %w failed to provied a move, and loses.', [Char]), nl, nl,
+    writef('Computer %w failed to provided a move, and loses.', [Char]), nl, nl,
     false.

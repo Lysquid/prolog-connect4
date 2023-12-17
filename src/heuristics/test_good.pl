@@ -75,7 +75,7 @@ test :-
     .
 
 
-% times a minmax evalution with the good heuristic on a empty board
+% times a minmax evaluation with the good heuristic on a empty board
 % (used to try to optimize the speed of the heuristic)
 time :-
     statistics(runtime, [Start|_]),

@@ -45,7 +45,7 @@ streak_val(_, _, C, L, DC, DL, 0, _) :-
 
 streak_val(B, M, C, L, DC, DL, S, P) :-
     streak_nb(B, M, C, L, DC, DL, S2, 0),
-    S is S2**P.
+    S is S2**P.   % the streak length to the power of a constant P
 
 streak_val(_, _, _, _, _, _, 0, _).
 
