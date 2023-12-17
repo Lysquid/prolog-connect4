@@ -4,15 +4,17 @@
 ?- consult(ai).
 
 % play a game recursively (turn of player P)
-play(P) :-
-    board(B), !,
-    output_board(B), !,
-    not(game_over(P, B)), !, 
-    make_move(P, B), !,
-    next_player(P, P2), !,
-    play(P2), !
-    .
+play(B, PlayerNo, P1, P2, EndBoard) :-
+    output_board(B),
+    make_move(PlayerNo, P1, B, B2),
+    next_turn(B2, PlayerNo, P1, P2, EndBoard).
 
+next_turn(B, PlayerNo, P1, P2, EndBoard) :-
+    next_player(PlayerNo, NextPlayerNo),
+    not(game_over(NextPlayerNo, B)), 
+    play(B, NextPlayerNo, P2, P1, EndBoard).
+
+next_turn(B, _, _, _, B).
 
 % determines when the game is over
 game_over(P, B) :-
@@ -27,14 +29,10 @@ game_over(_, B) :-
 
 % requests next move from human/computer, 
 % then applies that move to the given board
-make_move(P, B) :-
-    player(P, Type),
+make_move(P, Type, B, B2) :-
     get_move(Type, P, B, Move),
     player_mark(P, M),
-    move(B, Move, M, B2),
-    retract( board(_) ),
-    asserta( board(B2) )
-    .
+    move(B, Move, M, B2).
 
 
 % asks the move of the player

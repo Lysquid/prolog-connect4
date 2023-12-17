@@ -1,13 +1,11 @@
 ?- consult(board).
 
 % called at the start of a game to confirm what both players are
-output_players :- 
-    player(1, V1),
+output_players(P1, P2) :- 
     player_char(1, Char1),
-    writef('Player 1 (%w) is %w', [Char1, V1]), nl,   %%% either human or computer
-    player(2, V2),
+    writef('Player 1 (%w) is %w', [Char1, P1]), nl,   %%% either human or computer
     player_char(2, Char2),
-    writef('Player 2 (%w) is %w', [Char2, V2]), nl, nl,   %%% either human or computer
+    writef('Player 2 (%w) is %w', [Char2, P2]), nl, nl,   %%% either human or computer
     !
     .
 

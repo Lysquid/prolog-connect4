@@ -64,126 +64,106 @@ asserta( player(P, Type) ) - indicates which players are human/computer.
 
 % runs the game
 run :-
-    hello,
-    play(1),        %%% Play the game starting with player 1
-    goodbye
-    .
+    nl, write('Welcome to Connect4.'), nl, nl,
+    game.
 
-run :-
-    goodbye
-    .
+game :-
+    initialize_board(Board),
+    read_players(P1, P2),
+    play(Board, 1, P1, P2, EndBoard),       %%% Play the game starting with player 1
+    game_end(EndBoard),
+    play_again. 
 
-% displays welcome message, initialize game
-hello :-
-    initialize,
-    nl,
-    write('Welcome to Connect4.'), nl, nl,
-    read_players,
-    output_players
-    .
 
 % creates a blank board
-initialize :-
-    blank_mark(E),
-    asserta( board([
-        E, E, E, E, E, E, E,
-        E, E, E, E, E, E, E,
-        E, E, E, E, E, E, E,
-        E, E, E, E, E, E, E,
-        E, E, E, E, E, E, E,
-        E, E, E, E, E, E, E
-    ]) )
-    .
+initialize_board([
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e,
+    e, e, e, e, e, e, e
+]).
 
 % displays end of game message
-goodbye :-
-    board(B),
+game_end(B) :-
+    output_board(B),
     write('Game over: '),
-    output_winner(B), nl, nl,
-    retract(board(_)),
-    retract(player(_,_)),
-    read_play_again(V), !,
-    V == 'y', 
-    !,
-    run
-    .
+    output_winner(B), nl, nl. 
 
 % asks wether to play again
-read_play_again(V) :-
+play_again() :-
     write('Play again (y/n)? '), nl,
     read(V), nl,
-    (V == 'y' ; V == 'n'), !
-    .
+    play_again2(V).
 
-read_play_again(V) :-
-    write('Please enter y or n.'), nl, nl,
-    read_play_again(V)
-    .
+play_again2(y) :-
+    game.
+    
+play_again2(n).
+
+play_again2(_) :-
+    write('Enter y or n.').
+    
 
 % reads the number of human players
-read_players :-
+read_players(P1, P2) :-
     write('Number of human players? '), nl,
     read(N), nl,
-    set_players(N)
+    set_players(N, P1, P2),
+    output_players(P1, P2)
     .
 
 % sets the type of players depending on the number of humans players
-set_players(0) :- 
-    set_ai(1),
- 	set_ai(2), !
+set_players(0, P1, P2) :- 
+    set_ai(1, P1),
+ 	set_ai(2, P2), !
     .
 
-set_players(1) :-
+set_players(1, P1, P2) :-
     write('Is human playing first? (y/n)'), nl,
     read(First), nl,
-    human_playing(First), !
+    human_playing(First, P1, P2), !
     .
 
-set_players(2) :- 
-    asserta( player(1, human) ),
-    asserta( player(2, human) ), !
-    .
+set_players(2, human, human).
 
-set_players(_) :-
+set_players(_, P1, P2) :-
     write('Please enter 0, 1, or 2.'), nl, nl,
-    read_players, !
+    read_players(P1, P2), !
     .
 
 % case when the human is playing first
-human_playing(y) :- 
-    asserta( player(1, human) ),
-    set_ai(2), !
-	.
+human_playing(y, human, Ai) :- 
+    set_ai(2, Ai).
 
 % case when the human is playing second
-human_playing(n) :- 
-    asserta( player(2, human) ),
-	set_ai(1), !
-	.
+human_playing(n, Ai, human) :- 
+	set_ai(1, Ai).
 
-human_playing(_) :-
+human_playing(_, P1, P2) :-
     write('Please enter y or n.'), nl, nl,
-    set_players(1)
-    .
+    set_players(1, P1, P2).
+
 
 % choice of the compter AI
-set_ai(N) :-
+set_ai(_, Ai) :-
 	write('Please choose a computer AI:'), nl,
     write('1. random (no minmax)'), nl,
     write('2. good heuristic'), nl,
     write('3. bad heuristic'), nl,
     write('4. no heuristic'), nl,
     write('5. less good heuristic'), nl,
-	read(Ai), nl,
-    ai_playing(N, Ai).
+	read(AiNum), nl,
+    ai_playing(AiNum, Ai).
 
-ai_playing(N, 1) :- asserta( player(N, random_ai)).
-ai_playing(N, 2) :- asserta( player(N, good_heuristic)).
-ai_playing(N, 3) :- asserta( player(N, bad_heuristic)).
-ai_playing(N, 4) :- asserta( player(N, no_heuristic)).
-ai_playing(N, 5) :- asserta( player(N, less_good_heuristic)).
+ai_playing(1, random_ai).
+ai_playing(2, good_heuristic).
+ai_playing(3, bad_heuristic).
+ai_playing(4, no_heuristic).
+ai_playing(5, less_good_heuristic).
 
-ai_playing(N, _) :-
+ai_playing(N, Ai) :-
     write('Please enter a valid number.'), nl, nl,
-    set_ai(N).
+    set_ai(N, Ai).
 
