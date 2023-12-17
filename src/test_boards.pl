@@ -1,3 +1,5 @@
+% boards used for testing during development
+
 test_board1([
     e, e, e, e, e, e, e,
     e, e, e, e, x, e, e,

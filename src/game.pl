@@ -3,6 +3,7 @@
 ?- consult(board).
 ?- consult(ai).
 
+% play a game recursively (turn of player P)
 play(P) :-
     board(B), !,
     output_board(B), !,
@@ -11,7 +12,6 @@ play(P) :-
     next_player(P, P2), !,
     play(P2), !
     .
-
 
 
 % determines when the game is over
@@ -25,7 +25,6 @@ game_over(_, B) :-
     .  
 
 
-
 % requests next move from human/computer, 
 % then applies that move to the given board
 make_move(P, B) :-
@@ -37,14 +36,14 @@ make_move(P, B) :-
     asserta( board(B2) )
     .
 
+
+% asks the move of the player
 get_move(human, P, B, Move) :-
     player_char(P, Char),
     writef('Player %w move?', [Char]), nl, nl,
     read(Col), nl,
     Move is Col-1,
-    not(column_is_full(B, Move)),
-    % blank_mark(E),
-    !
+    not(column_is_full(B, Move)), !
     . 
 
 get_move(human, P, B, Move) :-
@@ -57,6 +56,8 @@ get_move(Ai, P, B, Move) :-
     ai_move(Ai, B, P, Move),
     legal_move(B, P, Move).
 
+
+% checks if an AI move is legal, stops the game if no
 legal_move(B, _, Move) :-
     not(column_is_full(B, Move)).
 
@@ -66,6 +67,7 @@ legal_move(_, Player, _) :-
     false.
 
 
+% computes the move an AI
 ai_move(random_ai, Board, Player, Move) :-
     possible_moves(Board, Moves),
     random_member(Move, Moves),

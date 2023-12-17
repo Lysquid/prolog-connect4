@@ -5,38 +5,41 @@
 ?- consult(heuristics/no).
 
 
+% computes the utility with the right heuristic
 utility(good_heuristic, B, U) :- good_heuristic(B, x, U, 2).
 utility(less_good_heuristic, B, U) :- good_heuristic(B, x, U, 1).
 utility(bad_heuristic, B, U) :- bad_heuristic(B, x, U, 2).
 utility(no_heuristic, B, U) :- no_heuristic(B, x, U, 2).
 
 
-
-minmax(Heuristic,D, B, M, S, U) :-
+% minmax algorithm
+minmax(Heuristic, D, B, M, S, U) :-
     Al is -inf,
     Be is inf,
     minmax2(Heuristic, D, B, M, S, U, Al, Be).
 
-% someone is winning
+% a player is winning
 minmax2(_, D, B, _, S, U, _, _) :- 
     win(B, AnyMark),
     minmax2_win(AnyMark, D, S, U).
 
-% reach bottom depth
+% reaches bottom depth
 minmax2(Heuristic, 0, B, _, _, U, _, _) :-
     utility(Heuristic, B, U).
 
-% cas général récursif
+% recursive general case
 minmax2(Heuristic,D, B, M, S, U, Al, Be) :- 
     D2 is D - 1,
     possible_moves(B, Moves),
     best(Heuristic,D2, B, M, Moves, S, U, Al, Be), !.
 
-% cas où on atteint la fin de partie (Aucun coup possible)
+% reaches the end of the game (no more possible moves)
 minmax2(Heuristic, _, B, _, _, U, _, _) :-
     utility(Heuristic, B, U).
 
 
+% when someone is winning, we give the board a very big utility instead of evaluating the heuristic
+% we add the depth to play first the fastest winning moves
 minmax2_win(M, D, _, U) :-
     minimizing(M),
     U is -100 - D.

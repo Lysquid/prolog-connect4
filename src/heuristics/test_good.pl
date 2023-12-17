@@ -2,6 +2,8 @@
 ?- consult('../ai').
 ?- consult('../test_boards').
 
+% tests the good heuristic on different board configurations
+% where its value has been calculated by hand
 test :-
 
     good_heuristic([
@@ -73,6 +75,8 @@ test :-
     .
 
 
+% times a minmax evalution with the good heuristic on a empty board
+% (used to try to optimize the speed of the heuristic)
 time :-
     statistics(runtime, [Start|_]),
     empty_board(B),

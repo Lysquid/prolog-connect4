@@ -21,8 +21,8 @@ opponent_mark(2, 'x').
 % the mark used in an empty square
 blank_mark('e').
 
-maximizing('x').        % the player playing x is always trying to maximize the utility of the board position
-minimizing('o').        % the player playing o is always trying to minimize the utility of the board position
+maximizing('x').   % the player playing x is always trying to maximize the utility of the board position
+minimizing('o').   % the player playing o is always trying to minimize the utility of the board position
 
 % map corner squares to board squares
 corner_square(1, 1).    
