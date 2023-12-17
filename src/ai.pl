@@ -32,7 +32,7 @@ minmax2(Heuristic,D, B, M, S, U, Al, Be) :-
     possible_moves(B, Moves),
     best(Heuristic,D2, B, M, Moves, S, U, Al, Be), !.
 
-% cas où on atteint la fin de partie (je crois ?)
+% cas où on atteint la fin de partie (Aucun coup possible)
 minmax2(Heuristic, _, B, _, _, U, _, _) :-
     utility(Heuristic, B, U).
 
@@ -52,6 +52,7 @@ minmax2_win(M, D, _, U) :-
 %.......................................
 % determines the best move in a given list of moves by recursively calling minimax
 %
+% Un seul coup possible -> on évalue ce coup avec minmax2.
 best(Heuristic,D,B,M,[S1],S,U,Al,Be) :- 
     move(B, S1, M, B2),
     inverse_mark(M, M2),
@@ -59,6 +60,9 @@ best(Heuristic,D,B,M,[S1],S,U,Al,Be) :-
     minmax2(Heuristic,D, B2, M2, _, U, Al, Be),
     S1 = S, !.
 
+% Plusieurs coups possible -> On évalue le premier coup avec minmax2 puis on
+% appel récursivement best sur les coups restant avant de les comparer avec le
+% coup que l'on vient d'évaluer
 best(Heuristic,D,B,M,[S1 | T],S,U,Al,Be) :- 
     move(B, S1, M, B2),
     inverse_mark(M, M2),
@@ -66,16 +70,17 @@ best(Heuristic,D,B,M,[S1 | T],S,U,Al,Be) :-
     minmax2(Heuristic,D, B2, M2, _, U1, Al, Be),
     prune_or_continue_best(Heuristic,D, B, M, S1, U1, T, S, U, Al, Be).
 
+% Prédicat de debug fait uniquement pour être utilisé avec trace
 prune(_, _, _).
 
-prune_or_continue_best(_, _, _, M, S1, U1, _, S, U, Al, _) :- %prune1
+prune_or_continue_best(_, _, _, M, S1, U1, _, S, U, Al, _) :- %Alpha prune
     minimizing(M),
     Al > U1,
     prune(M, Al, U1),
     S = S1,
     U = U1.
 
-prune_or_continue_best(_, _, _, M, S1, U1, _, S, U, _, Be) :-  %prune2
+prune_or_continue_best(_, _, _, M, S1, U1, _, S, U, _, Be) :-  %Beta prune
     maximizing(M),
     Be < U1,
     prune(M, Be, U1),
@@ -94,6 +99,11 @@ prune_or_continue_best(Heuristic,D, B, M, S1, U1, T, S, U, Al, Be) :- %continue
     best(Heuristic,D, B, M, T, S2, U2, Al, NBe),
     better(M, S1, U1, S2, U2, S, U).
 
+%.......................................
+% better
+%.......................................
+% Est vrai si et seulement si (S, U) représentent le meilleur coup entre 
+% (S1, U1) et (S2, U2)
 better(M, S1, U1, _S2, U2, S, U) :-
     maximizing(M),
     U1 > U2,
