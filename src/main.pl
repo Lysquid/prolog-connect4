@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% CST 381 -– Artificial Intelligence
+%%% Artificial Intelligence
 %%% Blazanome
 %%% Due December 15, 2023
 %%% Source : https://gitea.blazanome.ynh.fr/Blazanome/puissance4
@@ -62,17 +62,18 @@ asserta( player(P, Type) ) - indicates which players are human/computer.
 ?- consult(game).
 
 
+% runs the game
 run :-
-    hello,          %%% Display welcome message, initialize game
+    hello,
     play(1),        %%% Play the game starting with player 1
-    goodbye         %%% Display end of game message
+    goodbye
     .
 
 run :-
     goodbye
     .
 
-
+% displays welcome message, initialize game
 hello :-
     initialize,
     nl,
@@ -81,6 +82,7 @@ hello :-
     output_players
     .
 
+% creates a blank board
 initialize :-
     blank_mark(E),
     asserta( board([
@@ -90,9 +92,10 @@ initialize :-
         E, E, E, E, E, E, E,
         E, E, E, E, E, E, E,
         E, E, E, E, E, E, E
-    ]) ) %%% create a blank board
+    ]) )
     .
 
+% displays end of game message
 goodbye :-
     board(B),
     write('Game over: '),
@@ -105,6 +108,7 @@ goodbye :-
     run
     .
 
+% asks wether to play again
 read_play_again(V) :-
     write('Play again (y/n)? '), nl,
     read(V), nl,
@@ -116,13 +120,14 @@ read_play_again(V) :-
     read_play_again(V)
     .
 
-
+% reads the number of human players
 read_players :-
     write('Number of human players? '), nl,
     read(N), nl,
     set_players(N)
     .
 
+% sets the type of players depending on the number of humans players
 set_players(0) :- 
     set_ai(1),
  	set_ai(2), !
@@ -144,12 +149,13 @@ set_players(_) :-
     read_players, !
     .
 
-
+% case when the human is playing first
 human_playing(y) :- 
     asserta( player(1, human) ),
     set_ai(2), !
 	.
 
+% case when the human is playing second
 human_playing(n) :- 
     asserta( player(2, human) ),
 	set_ai(1), !
@@ -160,6 +166,7 @@ human_playing(_) :-
     set_players(1)
     .
 
+% choice of the compter AI
 set_ai(N) :-
 	write('Please choose a computer AI:'), nl,
     write('1. random (no minmax)'), nl,

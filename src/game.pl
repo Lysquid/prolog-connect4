@@ -13,12 +13,8 @@ play(P) :-
     .
 
 
-%.......................................
-% game_over
-%.......................................
+
 % determines when the game is over
-
-
 game_over(P, B) :-
     opponent_mark(P, M),   %%% game is over if opponent wins
     win(B, M)
@@ -29,12 +25,9 @@ game_over(_, B) :-
     .  
 
 
-%.......................................
-% make_move
-%.......................................
+
 % requests next move from human/computer, 
 % then applies that move to the given board
-
 make_move(P, B) :-
     player(P, Type),
     get_move(Type, P, B, Move),
